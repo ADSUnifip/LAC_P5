@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../components/Home.vue'
-import Pedidos from '../components/Pedidos.vue'
+import Login from '../components/Login.vue'
+import TelaInicial from '../components/TelaInicial.vue'
+
 
 Vue.use(Router)
 
@@ -9,13 +10,19 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'Login',
+      component: Login
     },
     {
-      path: '/pedidos',
-      name:'Pedidos',
-      component: Pedidos
+      path: '/inicio',
+      name: 'TelaInicial',
+      component: TelaInicial
+    },
+    {
+      path: '*',
+      name: 'Error404',
+      component: Error
     }
+    
   ]
 })
