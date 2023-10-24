@@ -1,5 +1,9 @@
 <template>
-    <h1>INSERIR LAUDO</h1>
+   
+
+    <div class="row">
+        
+    </div>
 </template>
 
 <script>
@@ -10,4 +14,13 @@ export default{
 
 <style scoped>
 
+.row{
+    background-color: burlywood;
+    border-radius: 10x;
+}
+
+#btn{
+    right: 0;
+    left: 0;
+}
 </style>

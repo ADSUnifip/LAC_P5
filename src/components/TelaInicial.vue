@@ -49,8 +49,11 @@
             </div>> 
             </div>
         </div>
-        <button @click="sair()" id="sair" class="btn btn-danger">Sair</button>
-    </div>
+        <div class="col-sm-12"> 
+            <button @click="sair()" id="sair" class="btn btn-danger">Sair</button>
+        </div>
+       
+        </div>
 
 </body>
 </template>
