@@ -2,7 +2,7 @@
 <body>
     <div class="container-fluid">
     <div id="geral" class="row">
-        <nav id="sidebar" class="col-md-2">
+        <nav id="sidebar" class="col-md-2 col-sm-12">
             <img id="img_nav" src="../assets/logo_biolab.png">
             <div id="botoes_laterais">   
                 <div class="item_lateral">  
@@ -25,7 +25,7 @@
                 </div>
             
         </nav>
-        <div class="col-md-10"> 
+        <div class="col-md-10 col-sm-12"> 
             <div class="telas_forms" v-show="atendimento"> 
                 <Atendimento/>
             </div>
@@ -92,9 +92,11 @@ export default{
     methods:{
         exibirlist(){
             this.listI = !this.listI;
+            this.listII = false;
         },
         exibirlist2(){
             this.listII = !this.listII;
+            this.listI = false;
         },
         exibirAtendimento(){
            this.atendimento = !this.atendimento;
@@ -169,8 +171,6 @@ export default{
 
 #sidebar{
     background-color:#B4C2B4;
-    width:20%;
-    
     bottom: 0;
     top:0;
     left:0;
@@ -220,7 +220,6 @@ export default{
 }
 .col-md-10{
     background-color: #B4C2B4;
-    width: 80%;
     overflow-y:auto;
     margin-top:30px;
     left:0;
