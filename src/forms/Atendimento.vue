@@ -4,10 +4,11 @@
     <div class="container"> 
         <form id="formulario_paciente" > 
             <div id="pesquisar" class="row"> 
-                <div class="col-md-10"> 
+                <div class="col-md-10 col-sm-12"> 
                     <input type="text" class="pesquisar form-control" placeholder="Pesquise paciente.." required >
                 </div>
-                <div class="col-md-2"> 
+                <!--ALINHAMENTO DOS BOTÕES-->
+                <div id="pesq_med" class="col-md-2 col-sm-12"> 
                     <button class=" pesquisar btn btn-primary">Pesquisar</button>
                 </div>
             </div>
@@ -30,12 +31,12 @@
                     <p>83996587412</p>
                 </div>
             </div>
-            <div id="medico_solict" class="row">
-                <div class="col-md-8"> 
-                    <input type="text" id="ps_medico" class="form-control" placeholder="Pesquisar Médico Solicitante" >
+            <div  class="row">
+                <div id="medico_solict" class="col-md-8 col-sm-12"> 
+                    <input type="text" class="form-control" placeholder="Pesquisar Médico Solicitante" >
                 </div> 
                 
-                <div class="col-md-4"> 
+                <div class="col-md-4 col-sm-12"> 
                     <button id="open_modal" type="button" class="btn btn-primary" @click="ExibirModal()">
                     <span class="icon-play-white _hover"></span>
                     <span>Novo</span>
@@ -60,11 +61,11 @@
                         </div> 
                     </div>
                     <div id="n_conselho" class="row"> 
-                        <div class="col-md-8"> 
+                        <div class="col-md-10"> 
                             <input type="number" class="form-control" placeholder="Numero do Conselho">
                         </div>
-                        <div class="col-md-4"> 
-                            <button id="bt_salvar_cx" style="left: 0;" class="btn btn-success">Salvar</button>
+                        <div id="sair_modal" class="col-md-2"> 
+                            <button id="bt_salvar_cx" class="btn btn-success">Salvar</button>
                         </div>
                     </div>
                 </div>
@@ -74,10 +75,10 @@
                
             </div>
             <div id="adicionar_procedimento" class="row"> 
-                <div class="col-md-8"> 
+                <div class="col-md-8 col-sm-12"> 
                 <input type="text" id="ps_medico" class="form-control col-sd-6" placeholder="Pesquisar Procedimento" required>
                 </div>
-                <div class="col-md-4"> 
+                <div class="col-md-4 col-sm-12"> 
                     <button class="btn btn-primary">
                     <span class="icon-play-white _hover"></span>
                     <span>Novo</span>
@@ -87,25 +88,27 @@
             </div>
             <!--Os itens selecionados serão adicionados em uma lista e essa lista será exibida abaixo usando o v-for-->
             <div class="list" v-for="item in ListProcedimento" :key="item"> 
-                <div id="list_proc" class="row"> 
-                    <div class="col-md-3 col-sm-12"> 
-                        <h6>GLI</h6>
+                <div id="item_ii" class="row">
+                    <div  class="col-md-1 col-sm-12">
+                    <div> 
+                        <p>GLI</p>
                     </div>
-                    <div class="col-md-3 col-sm-12"> 
-                        <h6>Glicose</h6>
                     </div>
-                        
-                    <div class="col-md-3 col-sm-12"> 
-                    <h6>154567899999</h6>
-                    </div> 
-                    <div class="col-md-3 col-sm-12"> 
-                        <button class="btn btn-danger">Remover</button>
+                    <div class="col-md-9 col-sm-12">
+                        <div> 
+                            <p>Glicose</p>
+                        </div>
                     </div>
-                </div>      
-            </div>
+                    <div id="btn" class="col-md-2 col-sm-12">
+                        <div> 
+                        <button class="btn">Remover</button>
+                        </div>
+                    </div>
+                </div>
+            </div>      
             
             <div>
-                <input type="submit" class="btn btn-success" value="Salvar dados">
+                <input id="salvar" type="submit" class="btn btn-success" value="Salvar dados">
             </div>
         </form>  
     </div>
@@ -154,11 +157,32 @@ export default{
 
 <style scoped>
 
+#salvar{
+    
+}
+
+#medico_solict{
+    margin: 0 auto;
+}
+#bt_salvar_cx{
+    margin: 0 auto;
+}
+
+#item_ii{
+    background-color: #d11c1c;
+    width: 95%;
+    padding: 10px 0px;
+    border-radius: 10px;
+    margin: 0 auto;
+    align-items: center;
+}
+
 #cabecalho{
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-bottom:10px ;
+    margin: 0 auto;
 }
 
 #item{
@@ -167,8 +191,10 @@ export default{
     margin-right: 30px;
 }
 .list{
-    margin: 20px;
+    
+    margin: 20px 0px;
     background-color: white;
+    padding: 10px;
 }
 
 #list_proc{
@@ -209,6 +235,8 @@ export default{
 #form{
     background-color: #B4C2B4;
     overflow-y:auto;
+    margin: 0 auto;
+
 }
 #pesquisar{
     background-image: none;
@@ -218,6 +246,7 @@ export default{
     border-radius: 5px;
     padding: 10px;
     height: 80%;
+    margin: 0 auto;
 }
 
 #resultado{
