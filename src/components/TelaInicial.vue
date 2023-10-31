@@ -154,7 +154,7 @@ export default{
             this.exibir_relatorio =false;
         },
         sair(){
-            
+            this.$router.push('/')
         }
         
         

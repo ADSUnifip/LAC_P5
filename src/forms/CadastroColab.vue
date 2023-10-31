@@ -6,23 +6,23 @@
             <div class="row"> 
                 <div class="col-md-4 col-12">
                     <label>Cpf</label>
-                    <input type="number" class="form-control" placeholder="999.999.999.99" required>
+                    <input type="number" class="form-control" v-model="cpf" placeholder="999.999.999.99" required>
                 </div>
                 <div class="col-md-8 col-12">
                     <label>Nome Compel</label>
-                    <input type="text" class="form-control" placeholder="Nome Completo" required>
+                    <input type="text" class="form-control" v-model="nome" placeholder="Nome Completo" required>
                 </div>
                 <div class="col-md-6 col-12"> 
                     <label>Email</label>
-                    <input type="text" class="form-control" placeholder="meuemial@gmail.com">
+                    <input type="text" class="form-control" v-model="email" placeholder="meuemail@gmail.com">
                 </div>
                 <div class="col-md-6">
                     <label>Data de nascimento</label>
-                    <input type="date" class="form-control" required>
+                    <input type="date" class="form-control" v-model="dataNascimento" required>
                 </div>
                 <div class="col-md-6"> 
                     <label>Sexo</label>
-                    <select class="form-select">
+                    <select class="form-select" v-model="sexo">
                         <option selected>Selecione o sexo</option>
                         <option value="masculino">Masculino</option>
                         <option value="feminino">Feminino</option>
@@ -56,9 +56,31 @@
 <script>
 export default{
     name: 'CadastroColab',
+    data(){
+        return{
+           // A Construir
+        }
+    },
     methods:{
         salvarColab(){
+            const formdata = new FormData();
+                formdata.append('nome',this.Burguer.name_client)
+                formdata.append('cpf',this.Burguer.bread)
+                formdata.append('dataNascimento',this.Burguer.meat)
+                formdata.append('sexo',this.Burguer.opcionais)
+                formdata.append('email',this.Burguer.status)
+                formdata.append('senha',this.Burguer.status)
+                
+                axios
+                .post('http://localhost:8081/burguers/new',formdata)
             
+                .then(({dados})=>{
+                    this.msg="Pedido Realizado com Sucesso!"
+                }).catch(({error})=>{
+                    this.msg="Falha ao Salvar o Pedido"
+                    console.log(error)
+                })
+                
         }
     }
 }
