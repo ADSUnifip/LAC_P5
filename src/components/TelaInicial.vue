@@ -2,7 +2,7 @@
 <body>
     <div class="container-fluid">
     <div id="geral" class="row">
-        <nav id="sidebar" class="col-md-2">
+        <nav id="sidebar" class="col-md-2 col-sm-12">
             <img id="img_nav" src="../assets/logo_biolab.png">
             <div id="botoes_laterais">   
                 <div class="item_lateral">  
@@ -25,7 +25,7 @@
                 </div>
             
         </nav>
-        <div class="col-md-10"> 
+        <div class="col-md-10 col-sm-12"> 
             <div class="telas_forms" v-show="atendimento"> 
                 <Atendimento/>
             </div>
@@ -46,11 +46,14 @@
             </div>
             <div class="telas_forms" v-show="cad_proc"> 
                 <CadastroProce/>
-            </div>> 
+            </div> 
             </div>
         </div>
-        <button @click="sair()" id="sair" class="btn btn-danger">Sair</button>
-    </div>
+        <div class="col-sm-12"> 
+            <button @click="sair()" id="sair" class="btn btn-danger">Sair</button>
+        </div>
+       
+        </div>
 
 </body>
 </template>
@@ -92,9 +95,11 @@ export default{
     methods:{
         exibirlist(){
             this.listI = !this.listI;
+            this.listII = false;
         },
         exibirlist2(){
             this.listII = !this.listII;
+            this.listI = false;
         },
         exibirAtendimento(){
            this.atendimento = !this.atendimento;
@@ -149,7 +154,7 @@ export default{
             this.exibir_relatorio =false;
         },
         sair(){
-            
+            this.$router.push('/')
         }
         
         
@@ -169,8 +174,6 @@ export default{
 
 #sidebar{
     background-color:#B4C2B4;
-    width:20%;
-    
     bottom: 0;
     top:0;
     left:0;
@@ -220,7 +223,6 @@ export default{
 }
 .col-md-10{
     background-color: #B4C2B4;
-    width: 80%;
     overflow-y:auto;
     margin-top:30px;
     left:0;
