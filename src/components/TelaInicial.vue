@@ -46,7 +46,7 @@
             </div>
             <div class="telas_forms" v-show="cad_proc"> 
                 <CadastroProce/>
-            </div>> 
+            </div> 
             </div>
         </div>
         <div class="col-sm-12"> 
