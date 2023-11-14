@@ -26,62 +26,19 @@ export default{
    
     methods:{
         async fazerLogin(){
-            const formdata = new FormData();
+                const formdata = new FormData();
                 formdata.append('email',this.email)
                 formdata.append('senha',this.senha)
-                
-                axios
-                .post('http://localhost:8081/api/login',formdata)
-                .then(({dados})=>{
-                    alert(dados)
+                try {
+                    const response = await axios.post(`http://localhost:8081/api/login`,formdata)
+                    const token = response.data
+                    localStorage.setItem('token', `Bearer ${token.tokenJWT}`)
                     this.$router.push('/inicio')
-                    console.log(dados)
-                    
-                }).catch(({error})=>{
-                    alert("Verifique o seu email e senha")
-                })
-
-               /* try {
-                const json = await dados.json()
-                if (json && json.token) {
-                    localStorage.setItem('token', `Bearer ${json.tokenJWT}`)
-                
-                } else {
-                    console.error('Invalid response from server')
-                }
+                    console.log(response.data);
                 } catch (error) {
-                    console.error(error)
+                    console.error('Erro na requisição Axios', error);
                 }
-                
-            /*const resposta = await fetch('http://localhost:8081/api/login/',{
-                method: 'POST',
-                mode: 'no-cors',
-                headers:{
-                    'Content-Type':'application/json',
-                },
-                body:JSON.stringify({
-                    email: this.email,
-                    senha: this.senha
-                }),
 
-                
-            });
-            console.log(await resposta.json())
-            /*
-            try{
-                const json = await resposta.json()
-                console.log(json)
-                if (json && json.token) {
-                    localStorage.setItem('token', `Bearer ${json.tokenJWT}`)
-                    router.push('/inicio')
-                    window.location.reload()
-                } else {
-                    console.error('Não houve retorno do servidor')
-            }
-            }catch(erro){
-                console.log("erro")
-                console.log(erro)
-            }*/
             
            
         }
@@ -95,6 +52,7 @@ export default{
 <style scoped>
 
 .container-fluid{
+    -webkit-text-size-adjust: 100%;
     width: 100%;
     background-color: #B4C2B4;
     height: 100%;
