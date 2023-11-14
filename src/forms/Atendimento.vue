@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import request from '../router/Requests'
 export default{
     name: 'Atendimento',
     data(){
@@ -162,6 +162,9 @@ export default{
         
         }
     },
+    
+    
+  
     
     methods:{
 
@@ -192,7 +195,7 @@ export default{
             // Exemplo de como lidar com assincronismo usando async/await
 
                 try {
-                    const response = await axios.get(`http://localhost:8081/api/patient/findByCPF/${this.cpf}`)
+                    const response = await request.get(`/patient/findByCPF/${this.cpf}`)
                     console.log(response.data);
                     this.paciente = response.data
                     if(response.data == ''){
@@ -206,8 +209,9 @@ export default{
 
         },
         async buscarMedicoCrm(){
+           
             try {
-                    const response = await axios.get(`http://localhost:8081/api/med/medicoSolicitante/crm/${this.crm}`);
+                    const response = await request.get(`/med/medicoSolicitante/crm/${this.crm}`);
                     console.log(response.data);
                     this.medicosol = response.data
                     this.name_medico = this.medicosol.nomeCompl
@@ -226,8 +230,8 @@ export default{
             formdata.append('nomeCompl',this.nomeCompleto)
             formdata.append('active',true)
             //Enviando
-            axios
-            .post(`http://localhost:8081/api/med/medicoSolicitante`,formdata)
+            request
+            .post(`/med/medicoSolicitante`,formdata)
             .then((dadoss)=>{
             //Armazendo os dados em uma lista
                 this.medicosol = dadoss.data
@@ -238,8 +242,10 @@ export default{
         },
 
         async buscarProced(){
+            
+            
             try {
-                    const response = await axios.get(`http://localhost:8081/api/procedimento`);
+                    const response = await request.get(`/procedimento`);
                     console.log(response.data)
                     this.ListProcedimento = response.data
                     for( var i = 0; response.length; i++){
