@@ -106,6 +106,7 @@ export default{
            this.novo_paciente = false;
            this.pesquisar_pac = false;
            this.inserir_laudo = false;
+           this.cad_colab = false
         },
         exibirNovoPaciente(){
             this.novo_paciente = !this.novo_paciente;
@@ -113,6 +114,7 @@ export default{
             this.pesquisar_pac = false;
             this.inserir_laudo = false;
             this.exibir_relatorio = false;
+            this.cad_colab = false
         },
         exibirPesquisarPac(){
             this.pesquisar_pac = !this.pesquisar_pac;
@@ -120,6 +122,7 @@ export default{
             this.novo_paciente = false;
             this.inserir_laudo = false;
             this.exibir_relatorio = false;
+            this.cad_colab = false
         },
         exibirInserirLaudo(){
             this.inserir_laudo = !this.inserir_laudo;
@@ -127,6 +130,7 @@ export default{
             this.novo_paciente = false;
             this.pesquisar_pac = false;
             this.exibir_relatorio = false;
+            this.cad_colab = false
         },
         exibir_relatorios(){
             this.exibir_relatorio = !this.exibir_relatorio;
@@ -134,6 +138,7 @@ export default{
             this.novo_paciente = false;
             this.pesquisar_pac = false;
             this.inserir_laudo = false;
+            this.cad_colab = false
         },
         exibirCadColab(){
             this.cad_colab = !this.cad_colab
