@@ -61,6 +61,7 @@ export default {
           localStorage.setItem("token", `Bearer ${json.tokenJWT}`);
         } else {
           console.error("Invalid response from server");
+
         }
       } catch (error) {
         console.error(error);
