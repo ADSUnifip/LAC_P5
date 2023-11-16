@@ -11,38 +11,58 @@
                     </span>
                 </div>
             </div>
-            <div id="resultado" v-for="patient in paciente" :key="patient.id" class="row"> 
-                <div class="col-md-3 col-sm-12"> 
+            <div id="resultado" v-for="patient in paciente" :key="patient.id" class="col"> 
+                <div class=" row itens"> 
+                    <div class="icon col-md-3 col-sm-12"> 
                     <h5>Nome Completo</h5>
                     <p>{{ patient.fullName }}</p>
                 </div>
-                <div class="col-md-3 col-sm-12"> 
+                <div class="icon col-md-3 col-sm-12"> 
                     <h5>Data de Nascimento</h5>
                     <p>{{ patient.birthDate }}</p>
                 </div>
                        
-                <div class="col-md-3 col-sm-12"> 
+                <div class=" icon col-md-3 col-sm-12"> 
                     <h5>Cpf</h5>
-                    <p>{{ paciente.cpf }}</p>
+                    <p>{{ patient.cpf }}</p>
                 </div> 
-                <div class="col-md-3 col-sm-12"> 
+                <div class=" icon col-md-3 col-sm-12"> 
                     <h5>Telefone</h5>
-                    <p>{{ paciente.telephone }}</p>
+                    <p>{{ patient.telephone }}</p>
                 </div>
+                </div>
+                
             </div>
             <div  class="row">
-                <div id="medico_solict" class="col-md-8 col-sm-12"> 
-                    
-                </div> 
-                
                 <div class=" input-group col-md-8 col-sm-12"> 
-                    <input type="text" class="form-control" v-model="crm" placeholder="CRM do médico solicitante">
+                    <input type="text" class="form-control" v-model="crm" maxlength="8" minlength="8" placeholder="Ex: PB123456">
                     <span class="input-group-addon">
                         <button id="slect_medico" @click="buscarMedicoCrm()" class=" botoes btn" style="margin-right: 60px;"><img  src="../assets/pesquisa.png" title="Pesquisar" style="width:25px"></button>
                     </span>
                     <button id="open_modal" type="button" class="btn" @click="ExibirModal()"><img  src="../assets/adicionar.png" title="Adicionar Médico no Sistema" style="width:25px">
                     </button>
                 </div>    
+            </div>
+            <div id="resultado" v-for="medicos in medicosol" :key="medicos.id" class="col">
+                <div class="row itens"> 
+                <div class=" icon col-md-3 col-sm-12" > 
+                    <h5>Nome Completo</h5>
+                    <p>{{ medicos.nomeCompl }}</p>
+                </div>
+                <div class="icon col-md-3 col-sm-12"> 
+                    <h5>CRM</h5>
+                    <p>{{ medicos.crm }}</p>
+                </div>
+                       
+                <div class="icon col-md-3 col-sm-12"> 
+                    <h5>UF</h5>
+                    <p>{{ medicos.ufCrm }}</p>
+                </div> 
+                <div class="icon col-md-3 col-sm-12"> 
+                    <button @click="cancelar()" class="btn btn-danger">Remover</button>
+                </div> 
+                </div>
+                
             </div>
             <!--MODAL DE CADASTRO DO NOVO MÉDICO-->
             <div id="fade" v-show="exibir_modal">
@@ -83,7 +103,7 @@
             <div>
                
             </div>
-            <div id="adicionar_procedimento" class="row"> 
+            <div id="adicionar_procedimento" class="col"> 
                 <div class=" input-group col-md-8 col-sm-12"> 
                     <input type="text" id="ps_medico" class="form-control col-sd-6" v-model="inputProcedimento" @input="filtro" placeholder="Pesquisar Procedimento">
                 <span class="input-group-addon">
@@ -101,35 +121,30 @@
                     </ul>
                 </div>
             <!--Os itens selecionados serão adicionados em uma lista e essa lista será exibida abaixo usando o v-for-->
-            <div class="list" v-for="item in ListProcedimentoSave" :key="item"> 
-                <div id="item_ii" class="row">
-                    <div class="col-md-1 col-sm-12">
-                    <div> 
-                        <p>{{ item.codigo }}</p>
-                    </div>
-                    </div>
-                    <div class="col-md-9 col-sm-12">
-                        <div> 
-                            <p>{{ item.nomeProcedimento }}</p>
-                        </div>
-                    </div>
-                    <div> 
-                        <div> 
-                            <p>{{ item.amostraPadrao.nomeAmostra }}</p>
-                        </div>
-                    </div>
-                    <div id="btn" class="col-md-2 col-sm-12">
-                        <div> 
-                        <button class="btn">Remover</button>
-                        </div>
-                    </div>
+            <div id="resultado" v-for="item in ListProcedimentoSave" :key="item.id" class="col">
+                <div id="procedimento" class="row itens"> 
+                <div class=" icon col-md-3 col-sm-12" > 
+                    <p>{{ item.menemonico }}</p>
                 </div>
-            </div>     
-             
-            
-            <div id="btn_save">
-                <input id="salvar" type="submit" class="btn btn-success" value="Salvar dados">
+                <div class="icon col-md-3 col-sm-12"> 
+                   
+                    <p>{{ item.nomeProcedimento }}</p>
+                </div>
+                       
+                <div class="icon col-md-3 col-sm-12"> 
+                    
+                    <p>{{ item.amostraPadrao.nomeAmostra }}</p>
+                </div> 
+                <div class="icon col-md-3 col-sm-12"> 
+                    <button @click="remover()" class="btn btn-danger">Remover</button>
+                </div> 
+                </div>
+                
             </div>
+            <div>
+                <input id="salvar" @click="NovoAtendimento()" type="submit" class="btn btn-success" value="Salvar dados">
+            </div>
+            
         </form>  
     </div>
 </div>    
@@ -157,7 +172,8 @@ export default{
             texto: '',
             modal_check: false,
             description: '',
-            ListProcedimentoSave: []
+            ListProcedimentoSave: [],
+            dataAtual: ''
            
         
         }
@@ -165,6 +181,13 @@ export default{
     
 
     methods:{
+
+        cancelar(){
+            this.medicosol = []
+        },
+        remover(){
+            this.ListProcedimentoSave = []
+        },
 
         filtro(){
             this.ListSugestoes = this.ListProcedimento.filter( procedimento => 
@@ -189,11 +212,18 @@ export default{
             this.exibir_modal = !this.exibir_modal;
         },
 
+        obterDataAtual(){
+            const data = new Date()
+            const dataFormatada = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
+            this.dataAtual = dataFormatada;
+        },
+
          async buscarPaciente(){
             // Exemplo de como lidar com assincronismo usando async/await
 
                 try {
                     const response = await request.get(`/patient/findByCPF/${this.cpf}`)
+                    console.log(this.cpf)
                     console.log(response.data);
                     this.paciente = response.data
                     if(response.data == ''){
@@ -261,11 +291,36 @@ export default{
             console.log(this.ListProcedimento[0].nomeProcedimento)
             console.log(this.ListProcedimentoSave.length)
             console.log(this.ListProcedimento.length)
-        }
+        },
+        NovoAtendimento(){
+
+            try{
+                const formdata = new FormData()
+                formdata.append('date', '20/04/2003')
+                formdata.append('active',true)
+                formdata.append('procedimento',this.ListProcedimentoSave)
+                formdata.append('medicoassinante',this.medicosol)
+                formdata.append('paciente',this.paciente)
+            //Enviando
+                request.post('/atendimento',formdata)
+                .then(({dados})=>{
+                    this.exibir_modal_check()
+                    this.texto = "Atendimento Cadastrado!"
+                })
+                
+            }catch(error){
+                this.exibir_modal_check()
+                this.texto = "Opps! Algo deu errado =("
+                this.description = error
+            }
+            //Construindo o Formdata que será enviado
+            
+        },
         
     },
     mounted(){
         this.buscarProced();
+        this.obterDataAtual;
     }
     
 }
@@ -273,6 +328,19 @@ export default{
 </script>
 
 <style scoped>
+#procedimento{
+    background-color: aquamarine;
+    margin-right:  10px;
+    margin-left: 10px;
+}
+
+.icon{
+    text-align: center;
+
+}
+.itens{
+   border-radius: 10px;
+}
 
 .input-group{
     position: relative;
@@ -288,11 +356,7 @@ export default{
     right: 0;
 }
 
-#btn_save{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 .col-md-3 col-sm-12{
     display: flex;
@@ -308,15 +372,6 @@ export default{
     margin: 0 auto;
 }
 
-#item_ii{
-    background-color: #d11c1c;
-    width: 95%;
-    padding: 10px 0px;
-    border-radius: 10px;
-    margin: 0 auto;
-    align-items: center;
-}
-
 #cabecalho{
     display: flex;
     align-items: center;
@@ -330,16 +385,7 @@ export default{
     margin-left: 30px;
     margin-right: 30px;
 }
-.list{
-    margin: 20px 0px;
-    background-color: white;
-    padding: 10px;
-}
 
-#list_proc{
-    background-color: #B4C2B4;
-    border-radius: 10px;
-}
 #fade{
     position: fixed;
     top:0;
@@ -391,11 +437,8 @@ export default{
     background-color: #B4C2B4;
     overflow-y:auto;
     margin: 0 auto;
+}
 
-}
-#pesquisar{
-    background-image: none;
-}
 #formulario_paciente{
     background-color: #D9D9D9;
     border-radius: 5px;
@@ -405,6 +448,8 @@ export default{
 }
 
 #resultado{
+    border-radius: 8px;
+    background-color: white;
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 10px;
