@@ -5,9 +5,9 @@
         <form id="formulario_paciente" > 
             <div id="pesquisar" class="row"> 
                 <div class="input-group col-md-10 col-sm-12" style="padding-bottom: 10px;">
-                    <input  id="cpf" type="text"  maxlength="11" minlength="11" v-model="cpf" class="cpf-mask pesquisar form-control" title="Pesquisar" suf placeholder="Pesquise paciente por CPF" >
-                    <span class="input-group-btn">
-                        <button @click="buscarPaciente()" class="pesquisar btn btn-default"><img  src="../assets/pesquisa.png" style="width:25px"></button>
+                    <input  id="cpf" type="text"  maxlength="14" minlength="11"  v-model="cpf" v-mask="'###.###.###-##'" class="form-control"  title="Pesquisar" suf placeholder="Pesquise paciente por CPF" >
+                    <span class="input-group-addon">
+                        <button @click="buscarPaciente()"  class="botoes btn btn-default"><img  src="../assets/pesquisa.png" style="width:25px"></button>
                     </span>
                 </div>
             </div>
@@ -37,11 +37,11 @@
                 
                 <div class=" input-group col-md-8 col-sm-12"> 
                     <input type="text" class="form-control" v-model="crm" placeholder="CRM do médico solicitante">
-                    <span class="input-group-btn">
-                        <button id="slect_medico" @click="buscarMedicoCrm()" class="btn"><img  src="../assets/pesquisa.png" title="Pesquisar" style="width:25px"></button>
-                        <button id="open_modal" type="button" class="btn " @click="ExibirModal()"><img  src="../assets/adicionar.png" title="Adicionar Médico no Sistema" style="width:25px">
-                    </button>
+                    <span class="input-group-addon">
+                        <button id="slect_medico" @click="buscarMedicoCrm()" class=" botoes btn" style="margin-right: 60px;"><img  src="../assets/pesquisa.png" title="Pesquisar" style="width:25px"></button>
                     </span>
+                    <button id="open_modal" type="button" class="btn" @click="ExibirModal()"><img  src="../assets/adicionar.png" title="Adicionar Médico no Sistema" style="width:25px">
+                    </button>
                 </div>    
             </div>
             <!--MODAL DE CADASTRO DO NOVO MÉDICO-->
@@ -86,8 +86,8 @@
             <div id="adicionar_procedimento" class="row"> 
                 <div class=" input-group col-md-8 col-sm-12"> 
                     <input type="text" id="ps_medico" class="form-control col-sd-6" v-model="inputProcedimento" @input="filtro" placeholder="Pesquisar Procedimento">
-                <span class="input-group-btn">
-                    <button class="btn"><img  src="../assets/pesquisa.png" style="width:25px"></button>
+                <span class="input-group-addon">
+                    <button class=" botoes btn" style="margin-right: 60px;"><img  src="../assets/pesquisa.png" style="width:25px"></button>
                     <button @click="AdicionarListPC()" class="btn"><img  src="../assets/adicionar.png" style="width:25px"></button>
                 </span>
                 </div>
@@ -163,9 +163,7 @@ export default{
         }
     },
     
-    
-  
-    
+
     methods:{
 
         filtro(){
@@ -272,18 +270,23 @@ export default{
     
 }
 
-//const openModalButton = document.querySelector("#open_modal");
-//const closeModalButton = document.querySelector("#close_modal")
-//const fade = document.querySelector("#fade")
-//const modal = document.querySelector("#modal")
-
-//[openModalButton,closeModalButton,fade].forEach(element => {
-   // element.addEventListener("click",()=> console.log("Teste"))
-//});
-
 </script>
 
 <style scoped>
+
+.input-group{
+    position: relative;
+    width: 100%;
+}
+
+.botoes{
+    background: transparent; 
+    border: none;
+    margin-right: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 
 #btn_save{
     display: flex;

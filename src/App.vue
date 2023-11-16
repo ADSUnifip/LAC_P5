@@ -8,6 +8,7 @@
 
 <script>
 import Login from './components/Login.vue'
+import {mask} from 'vue-the-mask'
 export default {
   name: 'App',
   components:{
@@ -17,7 +18,8 @@ export default {
     return{
       
     }
-  }
+  },
+  directives: {mask}
 }
 </script>
 
