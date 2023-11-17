@@ -1,51 +1,62 @@
 <template>
     <div> 
     <h1>Cadastro Colaborador</h1>
-    <div id="formulario_paciente"> 
-        <form class="formulario" @submit="salvarColab()">
+    <div id="formulario_paciente" class="p-5">
+        <form class="formulario" @submit.prevent="salvarColab()">
+            <span v-if="this.msg" class="erro pb-2 text-success text-center fs-1 text-break">{{ this.msg }}</span>
             <div class="row"> 
                 <div class="col-md-4 col-12">
                     <label>Cpf</label>
-                    <input type="number" class="form-control" v-model="cpf" placeholder="999.999.999.99" required>
+                    <input type="text" class="form-control " v-model="cpf" placeholder="999.999.999.99" >
+                    <span v-if="erro.cpf" class="erro text-danger text-break">{{ erro.cpf }}</span>
                 </div>
                 <div class="col-md-8 col-12">
-                    <label>Nome Compel</label>
-                    <input type="text" class="form-control" v-model="nome" placeholder="Nome Completo" required>
+                    <label>Nome Completo</label>
+                    <input type="text" class="form-control" v-model="nome" placeholder="Nome Completo" >
+                    <span v-if="erro.nome" class="erro text-danger text-break">{{ erro.nome }}</span>
                 </div>
                 <div class="col-md-6 col-12"> 
                     <label>Email</label>
                     <input type="text" class="form-control" v-model="email" placeholder="meuemail@gmail.com">
+                    <span v-if="erro.email" class="erro text-danger text-break">{{ erro.email }}</span>
                 </div>
                 <div class="col-md-6">
                     <label>Data de nascimento</label>
-                    <input type="date" class="form-control" v-model="dataNascimento" required>
+                    <input type="date" class="form-control" v-model="dataNascimento" >
+                    <span v-if="erro.dataNascimento" class="erro text-danger text-break">{{ erro.dataNascimento }}</span>
                 </div>
                 <div class="col-md-6"> 
+                    
                     <label>Sexo</label>
                     <select class="form-select" v-model="sexo">
-                        <option selected>Selecione o sexo</option>
-                        <option value="masculino">Masculino</option>
-                        <option value="feminino">Feminino</option>
+                        <option :value="''" selected>Selecione o sexo</option>
+                        <option :value="'M'">Masculino</option>
+                        <option :value="'F'">Feminino</option>
                     </select>
+                    <span v-if="erro.sexo" class="erro text-danger text-break">{{ erro.sexo }}</span>
                 </div>
                 <div class="col-md-6"> 
+                        
                     <label>Telefone</label>
-                    <input type="number" class="form-control" placeholder="(83)99999-9999" required>
+                    <input type="text" class="form-control" placeholder="(83)99999-9999" >
                 </div>
                 <div class="col-md-12"> 
+                    <span></span>
                     <label>Endereço</label>
-                    <input type="text" class="form-control" placeholder="Rua Clinica Biolab" required>
+                    <input type="text" class="form-control" placeholder="Rua Clinica Biolab" >
                 </div>
                 <div class="col-md-6">
+                    <span></span>
                     <label>Cep</label>
-                    <input type="number" class="form-control" placeholder="0000000" required>
+                    <input type="text" class="form-control" placeholder="0000000" >
                 </div>
                 <div class="col-md-6">
                     <label>Senha de Acesso</label>
-                    <input type="password" class="form-control" placeholder="Catolé do Rocha" required>
+                    <input type="text" class="form-control"  v-model="senha" placeholder="******" >
+                    <span v-if="erro.senha" class="erro text-danger text-break">{{ erro.senha }}</span>
                 </div>
                 <div id="salvar"> 
-                    <input type="submit" class="btn btn-success large">
+                    <input type="submit" class="btn btn-success large" >
                 </div>
             </div>  
         </form>
@@ -54,36 +65,104 @@
 </template>
 
 <script>
-export default{
-    name: 'CadastroColab',
-    data(){
-        return{
-           // A Construir
-        }
-    },
-    methods:{
-        salvarColab(){
-            const formdata = new FormData();
-                formdata.append('nome',this.Burguer.name_client)
-                formdata.append('cpf',this.Burguer.bread)
-                formdata.append('dataNascimento',this.Burguer.meat)
-                formdata.append('sexo',this.Burguer.opcionais)
-                formdata.append('email',this.Burguer.status)
-                formdata.append('senha',this.Burguer.status)
-                
-                axios
-                .post('http://localhost:8081/burguers/new',formdata)
+import axios from "axios";
+
+export default {
+  name: "CadastroColab",
+  data() {
+    return {
+      nome: "",
+      cpf: "",
+      dataNascimento: "",
+      sexo: "",
+      email: "",
+      senha: "",
+      tipoUsuario: "PADRAO",
+      msg: "",
+      erro: {
+        nome: "",
+        cpf: "",
+        dataNascimento: "",
+        sexo: "",
+        email: "",
+        senha: "",
+        tipoUsuario: "PADRAO",
+      }
+    };
+  },
+  methods: {
+    async salvarColab() {
+      const formdata = new FormData();
+      formdata.append("nome", this.nome);
+      formdata.append("cpf", this.cpf);
+      formdata.append("dataNascimento", this.dataNascimento);
+      formdata.append("sexo", this.sexo);
+      formdata.append("email", this.email);
+      formdata.append("senha", this.senha);
+      formdata.append("tipoUsuario", this.tipoUsuario = "PADRAO");
+
+      axios
+        .post("http://localhost:8081/api/usuario", formdata)
+        .then(({ data }) => {
+          this.msg = "Colaborador Cadastrado com Sucesso!";
+          this.limparFormulario()
+        })
+        .catch((error) => {
+         console.log(error.response.data)
+         const mensagensErro = error.response.data;
+         mensagensErro.forEach((erro) => {
+            if (erro.campo == "cpf"){
+                console.log(erro.mensagem)
+               this.erro.cpf = erro.mensagem
+            }
+            if (erro.campo == "nome"){
+                console.log(erro.mensagem)
+               this.erro.nome = erro.mensagem
+            }
+            if (erro.campo == "dataNascimento"){
+                console.log(erro.mensagem)
+               this.erro.dataNascimento = erro.mensagem
+            }
+            if (erro.campo == "cpf"){
+                console.log(erro.mensagem)
+               this.erro.cpf = erro.mensagem
+            }
+            if (erro.campo == "email"){
+                console.log(erro.mensagem)
+               this.erro.email = erro.mensagem
+            }
+            if (erro.senha == "cpf"){
+                console.log(erro.mensagem)
+               this.erro.senha = erro.mensagem
+            }
+              
+            });
             
-                .then(({dados})=>{
-                    this.msg="Pedido Realizado com Sucesso!"
-                }).catch(({error})=>{
-                    this.msg="Falha ao Salvar o Pedido"
-                    console.log(error)
-                })
-                
-        }
-    }
-}
+        });
+        
+    },
+    limparFormulario() {
+      // Resetar os valores para os estados iniciais
+      this.nome = "";
+      this.cpf = "";
+      this.dataNascimento = "";
+      this.sexo = "";
+      this.email = "";
+      this.senha = "";
+      this.tipoUsuario = "PADRAO";
+      this.erro = {
+        nome: "",
+        cpf: "",
+        dataNascimento: "",
+        sexo: "",
+        email: "",
+        senha: "",
+        tipoUsuario: "PADRAO",
+      };
+    },
+    
+  },
+};
 </script>
 
 <style scoped>
