@@ -88,7 +88,7 @@ export default {
       tipoAmostra: {
         codigo: "",
         nomeAmostra: "",
-        conservante: "",
+        conservante: "", 
       },
       metodologia: "",
     };
@@ -113,7 +113,7 @@ export default {
       const procedimentoData = new FormData();
       procedimentoData.append("menemonico", this.mnemonico);
       procedimentoData.append("nomeProcedimento", this.nomeProcedimento);
-      procedimentoData.append("amostraPadrao", JSON.stringify(this.tipoAmostra));
+      procedimentoData.append("amostraPadrao", this.tipoAmostra);
       procedimentoData.append("metodologia", this.metodologia);
 
       axios

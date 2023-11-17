@@ -4,8 +4,9 @@
     <div class="container"> 
         <form id="formulario_paciente" > 
             <div id="pesquisar" class="row"> 
+                <label class="labell">Cpf do paciente</label>
                 <div class="input-group col-md-10 col-sm-12" style="padding-bottom: 10px;">
-                    <input  id="cpf" type="text"  maxlength="14" minlength="11"  v-model="cpf" v-mask="'###.###.###-##'" class="form-control"  title="Pesquisar" suf placeholder="Pesquise paciente por CPF" >
+                    <input  id="cpf" type="text"  maxlength="14" minlength="11"  v-model="cpf" v-mask="'###.###.###-##'" class="form-control"  title="Pesquisar" suf placeholder="Pesquise paciente por CPF" required>
                     <span class="input-group-addon">
                         <button @click="buscarPaciente()"  class="botoes btn btn-default"><img  src="../assets/pesquisa.png" style="width:25px"></button>
                     </span>
@@ -34,8 +35,9 @@
                 
             </div>
             <div  class="row">
+                <label class="labell">CRM do médico solicitante</label>
                 <div class=" input-group col-md-8 col-sm-12"> 
-                    <input type="text" class="form-control" v-model="crm" maxlength="8" minlength="8" placeholder="Ex: PB123456">
+                    <input type="text" class="form-control" v-model="crm" maxlength="8" minlength="8" placeholder="Ex: PB123456" required>
                     <span class="input-group-addon">
                         <button id="slect_medico" @click="buscarMedicoCrm()" class=" botoes btn" style="margin-right: 60px;"><img  src="../assets/pesquisa.png" title="Pesquisar" style="width:25px"></button>
                     </span>
@@ -59,7 +61,7 @@
                     <p>{{ medicos.ufCrm }}</p>
                 </div> 
                 <div class="icon col-md-3 col-sm-12"> 
-                    <button @click="cancelar()" class="btn btn-danger">Remover</button>
+                    <button @click="cancelar()" class="btn btn-danger" style="transform: translateY(45%)">Remover</button>
                 </div> 
                 </div>
                 
@@ -104,8 +106,9 @@
                
             </div>
             <div id="adicionar_procedimento" class="col"> 
+                <label class="labell">Pesquisar Procedimento</label>
                 <div class=" input-group col-md-8 col-sm-12"> 
-                    <input type="text" id="ps_medico" class="form-control col-sd-6" v-model="inputProcedimento" @input="filtro" placeholder="Pesquisar Procedimento">
+                    <input type="text" id="ps_medico" class="form-control col-sd-6" v-model="inputProcedimento" @input="filtro" placeholder="Pesquisar Procedimento" required>
                 <span class="input-group-addon">
                     <button class=" botoes btn" style="margin-right: 60px;"><img  src="../assets/pesquisa.png" style="width:25px"></button>
                     <button @click="AdicionarListPC()" class="btn"><img  src="../assets/adicionar.png" style="width:25px"></button>
@@ -113,7 +116,7 @@
                 </div>
             </div>
              <!--Lista Flutuante-->
-                <div style="margin-top: 10px;"> 
+                <div id="listaflutuante" style="margin-top: 10px;"> 
                     <ul class="list-group" v-if="ListSugestoes.length">
                     <li class="list-group-item" v-for="sugestoes in ListSugestoes" :key="sugestoes.id" @click="selecionar(sugestoes)">
                         {{ sugestoes.nomeProcedimento }}
@@ -123,25 +126,26 @@
             <!--Os itens selecionados serão adicionados em uma lista e essa lista será exibida abaixo usando o v-for-->
             <div id="resultado" v-for="item in ListProcedimentoSave" :key="item.id" class="col">
                 <div id="procedimento" class="row itens"> 
-                <div class=" icon col-md-3 col-sm-12" > 
+                <div style="transform: translateY(20%)" class=" icon col-md-1 col-sm-12" > 
                     <p>{{ item.menemonico }}</p>
                 </div>
-                <div class="icon col-md-3 col-sm-12"> 
-                   
+                <div style="transform: translateY(20%)" class="icon col-md-3 col-sm-12"> 
                     <p>{{ item.nomeProcedimento }}</p>
                 </div>
                        
-                <div class="icon col-md-3 col-sm-12"> 
-                    
+                <div style="transform: translateY(20%)" class="icon col-md-3 col-sm-12"> 
                     <p>{{ item.amostraPadrao.nomeAmostra }}</p>
                 </div> 
-                <div class="icon col-md-3 col-sm-12"> 
-                    <button @click="remover()" class="btn btn-danger">Remover</button>
+                <div style="transform: translateY(20%)" class="icon col-md-3 col-sm-12"> 
+                    <p>{{ item.amostraPadrao.conservante }}</p>
+                </div> 
+                <div class="icon col-md-2 col-sm-12"> 
+                    <button @click="remover()" class="btn btn-danger" ><img  src="../assets/lixeira.png" style="width:25px"></button>
                 </div> 
                 </div>
                 
             </div>
-            <div>
+            <div id="botao_salvar">
                 <input id="salvar" @click="NovoAtendimento()" type="submit" class="btn btn-success" value="Salvar dados">
             </div>
             
@@ -215,7 +219,10 @@ export default{
         obterDataAtual(){
             const data = new Date()
             const dataFormatada = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
-            this.dataAtual = dataFormatada;
+            console.log(dataFormatada)
+            console.log(data)
+            console.log(this.dataAtual)
+            this.dataAtual =  dataFormatada.toString();
         },
 
          async buscarPaciente(){
@@ -287,18 +294,27 @@ export default{
         AdicionarListPC(){
             console.log("entrou")
             console.log(this.inputProcedimento)
-            this.ListProcedimentoSave = this.ListProcedimento
+            for (let i = 0; i < this.ListProcedimento.length; i++) {
+                if (this.inputProcedimento == this.ListProcedimento[i].nomeProcedimento) {
+                    this.ListProcedimentoSave = this.ListProcedimento[i];
+                    console.log("Correspondência encontrada");
+                break; // Importante: interromper o loop após encontrar uma correspondência
+                }else{
+                    console.log("socorro!")
+                }
+}
+
+            
             console.log(this.ListProcedimento[0].nomeProcedimento)
-            console.log(this.ListProcedimentoSave.length)
-            console.log(this.ListProcedimento.length)
+            console.log(this.ListProcedimentoSave.type)
+            console.log(this.inputProcedimento.type)
         },
         NovoAtendimento(){
 
             
 
             try{
-                //let proced = JSON.parse(this.medicosol[0])
-                //let pacient = JSON.parse(this.paciente[0])
+            
                 const medic ={
                     crm: this.medicosol[0].crm,
                     ufCrm: this.medicosol[0].ufCrm,
@@ -307,7 +323,7 @@ export default{
                     
                 }
                 const formdata = new FormData()
-                formdata.append('date', this.data)
+                formdata.append('date', this.dataAtual)
                 formdata.append('active',true)
                 formdata.append('procedimento',this.ListProcedimentoSave[0].id)
                 formdata.append('medicoSolicitante',this.medicosol[0].id)
@@ -335,15 +351,34 @@ export default{
     },
     mounted(){
         this.buscarProced();
-        this.obterDataAtual;
+        this.obterDataAtual();
     }
     
 }
 
 </script>
 
+
+
 <style scoped>
+
+#listaflutuante{
+    position: relative;
+}
+
+#botao_salvar{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.labell{
+    margin-bottom: 5px;
+}
 #procedimento{
+    padding-top: 5px;
+    padding-bottom: 5px;
     background-color: aquamarine;
     margin-right:  10px;
     margin-left: 10px;
