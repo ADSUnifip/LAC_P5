@@ -294,13 +294,27 @@ export default{
         },
         NovoAtendimento(){
 
+            
+
             try{
+                //let proced = JSON.parse(this.medicosol[0])
+                //let pacient = JSON.parse(this.paciente[0])
+                const medic ={
+                    crm: this.medicosol[0].crm,
+                    ufCrm: this.medicosol[0].ufCrm,
+                    nomeCompl: this.medicosol[0].nomeCompl,
+                    active: true
+                    
+                }
                 const formdata = new FormData()
-                formdata.append('date', '20/04/2003')
+                formdata.append('date', this.data)
                 formdata.append('active',true)
-                formdata.append('procedimento',this.ListProcedimentoSave)
-                formdata.append('medicoassinante',this.medicosol)
-                formdata.append('paciente',this.paciente)
+                formdata.append('procedimento',this.ListProcedimentoSave[0].id)
+                formdata.append('medicoSolicitante',this.medicosol[0].id)
+                formdata.append('paciente',this.paciente[0].id)
+                console.log(this.paciente.type)
+                console.log(this.medicosol.type)
+                
             //Enviando
                 request.post('/atendimento',formdata)
                 .then(({dados})=>{
@@ -312,6 +326,7 @@ export default{
                 this.exibir_modal_check()
                 this.texto = "Opps! Algo deu errado =("
                 this.description = error
+                console.log(this.paciente)
             }
             //Construindo o Formdata que será enviado
             
