@@ -1,6 +1,6 @@
 <template>
   <div id="formulario_paciente" class="d-flex">
-    <form class="formulario" @submit="salvarPaciente()">
+    <form class="formulario" @submit="salvarPaciente()" ref="form">
       <h2>Novo Paciente</h2>
       <div class="row">
         <div class="col-md-2 col-12">
@@ -82,7 +82,7 @@ export default {
       // form.append("endereco", this.endereco);
 
       var response = await request.post("/patient", form).then(({ data }) => {
-        form.delete();
+        this.$refs.form.reset();
       });
 
 
