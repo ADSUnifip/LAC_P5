@@ -1,82 +1,127 @@
 <template>
-    <div> 
-    <h1>Novo Paciente</h1>
-    <div id="formulario_paciente"> 
-        <form class="formulario" @submit="salvarColab()">
-            <div class="row"> 
-                <div class="col-md-4 col-12">
-                    <label>Cpf</label>
-                    <input type="number" class="form-control" placeholder="999.999.999.99" required>
+    <div class="d-flex justify-content-center">
+        <div id="formulario_paciente">
+            <h2>Novo Paciente</h2>
+            <form class="formulario" @submit="salvarPaciente()">
+                <div class="row">
+                    <div class="col-md-2 col-12">
+                        <label>Cpf</label>
+                        <input type="text" class="form-control" placeholder="999.999.999.99" required
+                            v-mask="['###.###.###-##', '###.###.###-##']" v-model="cpf">
+                    </div>
+                    <div class="col-md-10 col-12">
+                        <label>Nome Completo</label>
+                        <input type="text" class="form-control" placeholder="Nome Completo" required v-model="fullName">
+                    </div>
+                    <div class="col-md-9 col-12">
+                        <label>Email</label>
+                        <input type="text" class="form-control" placeholder="meuemial@gmail.com" v-model="email">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Data de nascimento</label>
+                        <input type="date" class="form-control" required v-model="birthDate">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Sexo</label>
+                        <select class="form-select" v-model="sex">
+                            <option selected>Selecione o sexo</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                        </select>
+                    </div>
+                    <div class="col-md-9">
+                        <label>Telefone</label>
+                        <input type="text" class="form-control" placeholder="(83) 99999-9999" required
+                            v-mask="['(##) ####-####', '(##) #####-####']" v-model="telephone">
+                    </div>
+                    <!-- <div class="col-md-4">
+                        <label>Cep</label>
+                        <input type="text" class="form-control" placeholder="00000-000" required
+                            v-mask="['#####-###', '#####-###']" v-model="cep">
+                    </div>
+                    <div class="col-md-12">
+                        <label>Endereço</label>
+                        <input type="text" class="form-control" placeholder="Rua Clinica Biolab" required
+                            v-model="endereco">
+                    </div> -->
+                    <div id="salvar" class="salvar d-flex justify-content-end">
+                        <input type="submit" class="btn btn-success large">
+                    </div>
                 </div>
-                <div class="col-md-8 col-12">
-                    <label>Nome Completo</label>
-                    <input type="text" class="form-control" placeholder="Nome Completo" required>
-                </div>
-                <div class="col-md-6 col-12"> 
-                    <label>Email</label>
-                    <input type="text" class="form-control" placeholder="meuemial@gmail.com">
-                </div>
-                <div class="col-md-6">
-                    <label>Data de nascimento</label>
-                    <input type="date" class="form-control" required>
-                </div>
-                <div class="col-md-6"> 
-                    <label>Sexo</label>
-                    <select class="form-select">
-                        <option selected>Selecione o sexo</option>
-                        <option value="masculino">Masculino</option>
-                        <option value="feminino">Feminino</option>
-                    </select>
-                </div>
-                <div class="col-md-6"> 
-                    <label>Telefone</label>
-                    <input type="number" class="form-control" placeholder="(83)99999-9999" required>
-                </div>
-                <div class="col-md-8"> 
-                    <label>Endereço</label>
-                    <input type="text" class="form-control" placeholder="Rua Clinica Biolab" required>
-                </div>
-                <div class="col-md-4">
-                    <label>Cep</label>
-                    <input type="number" class="form-control" placeholder="0000000" required>
-                </div>
-                <div id="salvar"> 
-                    <input type="submit" class="btn btn-success large">
-                </div>
-            </div>  
             </form>
-    </div>
+        </div>
     </div>
 </template>
 
 <script>
-export default{
+import { mask } from 'vue-the-mask'
+import request from '../router/Requests'
+export default {
+    data() {
+        return {
+            fullName: "",
+            cpf: "",
+            email: "",
+            birthDate: "",
+            sex: "",
+            telephone: "",
+            // cep: "",
+            // endereco: ""
+        }
+    },
+    directives: { mask },
     name: 'NovoPaciente',
-    methods:{
-        
+    methods: {
+        async salvarPaciente() {
+            const form = new FormData();
+            form.append("cpf", this.cpf);
+            form.append("fullName", this.fullName);
+            form.append("email", this.email);
+            form.append("birthDate", new Date(this.birthDate));
+            form.append("sex", this.sex);
+            form.append("telephone", this.telephone);
+            // form.append("cep", this.cep);
+            // form.append("endereco", this.endereco);
+
+            var response = await request.post("/patient", form);
+            console.log(response);
+
+        }
     }
 
 }
 </script>
 
 <style scoped>
+h2 {
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-.col-md-6{
+label {
+    margin-bottom: 3px;
+    margin-top: 3px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.col-md-6 {
     margin: 8px auto;
 }
-.col-md-4{
+
+.col-md-4 {
     margin: 8px auto;
 }
 
-.formulario{
-    margin: 20px auto;
-    padding: 10px 10px;
+.salvar {
+    margin-top: 30px;
 }
 
-#formulario_paciente{
-    background-color: #D9D9D9;
-    border-radius: 5px;
+#formulario_paciente {
+    margin-top: 70px;
+    background-color: white;
+    border-radius: 18px;
     padding: 10px;
-    height: 80%;
-}
-</style>
+    height: 65%;
+    width: 98%;
+}</style>
