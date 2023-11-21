@@ -4,7 +4,7 @@
       <h2>Novo Paciente</h2>
       <div class="row">
         <div class="col-md-2 col-12">
-          <label>Cpf</label>
+          <label>CPF</label>
           <input type="text" class="form-control" placeholder="999.999.999.99" required
             v-mask="['###.###.###-##', '###.###.###-##']" v-model="cpf">
         </div>
@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-9 col-12">
           <label>Email</label>
-          <input type="text" class="form-control" placeholder="meuemial@gmail.com" v-model="email">
+          <input type="text" class="form-control" placeholder="emial@gmail.com" v-model="email">
         </div>
         <div class="col-md-3">
           <label>Data de nascimento</label>
@@ -26,6 +26,7 @@
             <option selected>Selecione o sexo</option>
             <option value="Masculino">Masculino</option>
             <option value="Feminino">Feminino</option>
+            <option value="Outros">Outros</option>
           </select>
         </div>
         <div class="col-md-9">
@@ -54,6 +55,7 @@
 <script>
 import { mask } from 'vue-the-mask'
 import request from '../router/Requests'
+
 export default {
   data() {
     return {
@@ -82,7 +84,10 @@ export default {
       // form.append("endereco", this.endereco);
 
       var response = await request.post("/patient", form).then(({ data }) => {
+        this.$toasted.success("Paciente Cadastrado com sucesso!");
         this.$refs.form.reset();
+      }).catch(({ data }) => {
+        this.$toasted.error("Erro ao cadastrar");
       });
 
 
