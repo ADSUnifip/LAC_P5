@@ -4,7 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueTheMask from 'vue-the-mask'
+import Toasted  from 'vue-toasted'
 Vue.use(VueTheMask)
+Vue.use(Toasted, {duration:3000})
 
 Vue.config.productionTip = false
 

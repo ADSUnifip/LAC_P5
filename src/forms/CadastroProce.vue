@@ -3,7 +3,7 @@
     <h1>Cadastro de Procedimento</h1>
     <div id="formulario_procedimento">
       <h3>Dados do Procedimento</h3>
-      <form class="formulario" @submit="salvarProced()">
+      <form class="formulario" @submit="salvarProced()" ref="form">
         <div class="row">
           <div class="col-md-4 col-12 col-sm-12">
             <label class="titulo">Mnemônico *</label>
@@ -27,6 +27,18 @@
           </div>
 
           <div class="col-md-12 col-sm-12">
+            <label class="titulo">Tipo de Amostra *</label>
+            <select v-model="amostraPadrao" class="form-select" required>
+              <option selected>-- Selecione --</option>
+              <option value="Tipo_01">Sangue</option>
+              <option value="Tipo_02">Urina</option>
+              <option value="Tipo_03">Fezes</option>
+              <option value="Tipo_04">Saliva</option>
+              <option value="Tipo_05">Outro ...</option>
+            </select>
+          </div>
+
+          <div class="col-md-12 col-sm-12">
             <label class="titulo">Metodologia</label>
             <textarea
               v-model="metodologia"
@@ -34,37 +46,6 @@
               rows="4"
               placeholder="Descreva a Metodologia ou use como campo de Observação"
             ></textarea>
-          </div>
-          <h3>Tipo Amostra</h3>
-          <div class="col-md-4 col-12 col-sm-12">
-            <label class="titulo">Código *</label>
-            <input
-              v-model="tipoAmostra.codigo"
-              type="text"
-              class="form-control"
-              placeholder="Ex: 0001"
-              required
-            />
-          </div>
-          <div class="col-md-4 col-12">
-            <label class="titulo">Nome da Amostra *</label>
-            <input
-              v-model="tipoAmostra.nomeAmostra"
-              type="text"
-              class="form-control"
-              placeholder=""
-              required
-            />
-          </div>
-          <div class="col-md-4 col-12 col-sm-12">
-            <label class="titulo">Conservante *</label>
-            <input
-              v-model="tipoAmostra.conservante"
-              type="text"
-              class="form-control"
-              placeholder=""
-              required
-            />
           </div>
 
           <div class="btn" id="salvar">
@@ -85,11 +66,7 @@ export default {
     return {
       mnemonico: "",
       nomeProcedimento: "",
-      tipoAmostra: {
-        codigo: "",
-        nomeAmostra: "",
-        conservante: "", 
-      },
+      amostraPadrao: "",
       metodologia: "",
     };
   },
@@ -113,13 +90,14 @@ export default {
       const procedimentoData = new FormData();
       procedimentoData.append("menemonico", this.mnemonico);
       procedimentoData.append("nomeProcedimento", this.nomeProcedimento);
-      procedimentoData.append("amostraPadrao", this.tipoAmostra);
+      procedimentoData.append("amostraPadrao", this.amostraPadrao);
       procedimentoData.append("metodologia", this.metodologia);
 
       axios
         .post("http://localhost:8080/api/procedimento", procedimentoData)
         .then((response) => {
           console.log(response);
+          this.$refs.form.reset();
           alert("Dados Salvos com Sucesso!");
           console.log("Dados enviados com sucesso:", response.data);
         })
