@@ -23,7 +23,7 @@
         <div class="col-md-3">
           <label>Sexo</label>
           <select class="form-select" v-model="sex">
-            <option selected>Selecione o sexo</option>
+            <!-- <option selected>Selecione o sexo</option> -->
             <option value="Masculino">Masculino</option>
             <option value="Feminino">Feminino</option>
             <option value="Outros">Outros</option>
@@ -34,16 +34,33 @@
           <input type="text" class="form-control" placeholder="(83) 99999-9999" required
             v-mask="['(##) ####-####', '(##) #####-####']" v-model="telephone">
         </div>
-        <!-- <div class="col-md-4">
-                        <label>Cep</label>
-                        <input type="text" class="form-control" placeholder="00000-000" required
-                            v-mask="['#####-###', '#####-###']" v-model="cep">
-                    </div>
-                    <div class="col-md-12">
-                        <label>Endereço</label>
-                        <input type="text" class="form-control" placeholder="Rua Clinica Biolab" required
-                            v-model="endereco">
-                    </div> -->
+        <h3>Endereço:</h3>
+        <div class="col-md-2 col-12">
+          <label>Cep</label>
+          <input type="text" class="form-control" placeholder="00000-000" required v-mask="['#####-###', '#####-###']" v-model="endereco.cep">
+        </div>
+        <div class="col-md-10 col-12">
+          <label>Rua</label>
+          <input type="text" class="form-control" placeholder="Rua Clinica Biolab" required v-model="endereco.rua">
+        </div>
+        <div class="col-md-4 col-12">
+          <label>Bairro</label>
+          <input type="text" class="form-control" required v-model="endereco.bairro">
+        </div>
+        <div class="col-md-4 col-12">
+          <label>Cidade</label>
+          <input type="text" class="form-control" required v-model="endereco.cidade">
+        </div>
+        <div class="col-md-3 col-12">
+          <label>Estado</label>
+          <input type="text" class="form-control" required v-model="endereco.estado">
+        </div>
+        <div class="col-md-1 col-12">
+          <label>Numero</label>
+          <input type="text" class="form-control" required v-model="endereco.numero">
+        </div>
+
+
         <div id="salvar" class="salvar d-flex justify-content-end">
           <input type="submit" class="btn btn-success large">
         </div>
@@ -65,8 +82,15 @@ export default {
       birthDate: "",
       sex: "",
       telephone: "",
-      // cep: "",
-      // endereco: ""
+      endereco:{
+        rua: "",
+        bairro:"",
+        numero:"",
+        cidade:"",
+        estado:"",
+        cep:""
+      }
+
     }
   },
   directives: { mask },
@@ -77,14 +101,18 @@ export default {
       form.append("cpf", this.cpf);
       form.append("fullName", this.fullName);
       form.append("email", this.email);
-      form.append("birthDate", new Date(this.birthDate));
+      form.append("birthDate", this.birthDate);
       form.append("sex", this.sex);
       form.append("telephone", this.telephone);
-      // form.append("cep", this.cep);
-      // form.append("endereco", this.endereco);
+      form.append("endereco.cep", this.endereco.cep);
+      form.append("endereco.rua", this.endereco.rua);
+      form.append("endereco.bairro", this.endereco.bairro);
+      form.append("endereco.numero", this.endereco.numero);
+      form.append("endereco.cidade", this.endereco.cidade);
+      form.append("endereco.estado", this.endereco.estado);
 
-      var response = await request.post("/patient", form).then(({ data }) => {
-        this.$toasted.success("Paciente Cadastrado com sucesso!");
+      await request.post("/patient", form).then(({ data }) => {
+        this.$toasted.success("Paciente Cadastrado com sucesso!", );
         this.$refs.form.reset();
       }).catch(({ data }) => {
         this.$toasted.error("Erro ao cadastrar");
@@ -102,10 +130,12 @@ h2 {
   margin-bottom: 20px;
   font-family: Arial, Helvetica, sans-serif;
 }
+h3{
+  margin-top: 20px;
+}
 
 label {
-  margin-bottom: 3px;
-  margin-top: 3px;
+  margin-top: 10px;
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
 }
