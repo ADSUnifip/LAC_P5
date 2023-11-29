@@ -2,15 +2,17 @@
     <div> 
     <h1>Novo Atendimento</h1>
     <div class="container"> 
-        <form id="formulario_paciente" > 
+        <form id="formulario_paciente"  ref="form"> 
             <div id="pesquisar" class="row"> 
                 <label class="labell">Cpf do paciente</label>
-                <div class="input-group col-md-10 col-sm-12" style="padding-bottom: 10px;">
-                    <input  id="cpf" type="text"  maxlength="14" minlength="11"  v-model="cpf" v-mask="'###.###.###-##'" class="form-control"  title="Pesquisar" suf placeholder="Pesquise paciente por CPF" required>
+                <div class=" input-group col-md-8 col-sm-12"> 
+                    <input type="text" class="form-control" v-model="cpf" maxlength="14" minlength="11" placeholder="Insira o CPF do paciente" required>
                     <span class="input-group-addon">
-                        <button @click="buscarPaciente()"  class="botoes btn btn-default"><img  src="../assets/pesquisa.png" style="width:25px"></button>
+                        <button @click="buscarPaciente()" class=" botoes btn" style="margin-right: 60px;"><img  src="../assets/pesquisa.png" title="Pesquisar" style="width:25px"></button>
                     </span>
-                </div>
+                    <button  type="button" class="btn" @click= "pushAtendimento()"><img  src="../assets/adicionar.png" title="Adicionar Médico no Sistema" style="width:25px">
+                    </button>
+                </div>  
             </div>
             <div id="resultado" v-for="patient in paciente" :key="patient.id" class="col"> 
                 <div class=" row itens"> 
@@ -20,7 +22,7 @@
                 </div>
                 <div class="icon col-md-3 col-sm-12"> 
                     <h5>Data de Nascimento</h5>
-                    <p>{{ patient.birthDate }}</p>
+                    <p>{{ patient.birthDate}}</p>
                 </div>
                        
                 <div class=" icon col-md-3 col-sm-12"> 
@@ -41,7 +43,7 @@
                     <span class="input-group-addon">
                         <button id="slect_medico" @click="buscarMedicoCrm()" class=" botoes btn" style="margin-right: 60px;"><img  src="../assets/pesquisa.png" title="Pesquisar" style="width:25px"></button>
                     </span>
-                    <button id="open_modal" type="button" class="btn" @click="ExibirModal()"><img  src="../assets/adicionar.png" title="Adicionar Médico no Sistema" style="width:25px">
+                    <button id="open_modal" type="button" class="btn" @click="Modal()"><img  src="../assets/adicionar.png" title="Adicionar Médico no Sistema" style="width:25px">
                     </button>
                 </div>    
             </div>
@@ -71,7 +73,7 @@
                 <div id="modal"> 
                     <div id="cabecalho">
                             <h3>Novo Médico</h3>
-                            <button id="close_modal" class="btn btn-danger" @click="FecharModal()">X</button>
+                            <button id="close_modal" class="btn btn-danger" @click="Modal()">X</button>
                     </div>
                 <div class="modal_body"> 
                     <div class="row">
@@ -84,7 +86,7 @@
                     </div>
                     <div id="n_conselho" class="row"> 
                         <div class="col-md-10"> 
-                            <input type="number" class="form-control" v-model="crmsol" placeholder="Numero do Conselho">
+                            <input type="text" class="form-control" v-model="crmsol" placeholder="Numero do Conselho" maxlength="8">
                         </div>
                         <div id="sair_modal" class="col-md-2"> 
                             <button @click="NovoMedicoAss()" id="bt_salvar_cx" class="btn btn-success">Salvar</button>
@@ -93,18 +95,7 @@
                 </div>
             </div>
             </div>
-            <!--MODAL DE CHECK-->
-            <div id="fade" v-show="modal_check">
-                <div id="modal_i">
-                    <h4>{{ texto }}</h4>
-                    <p>{{ description }}</p>
-                    <button @click="exibir_modal_check()" class="btn btn-success" style="margin-top:5px;">OK</button>
-                </div>
-                
-            </div>
-            <div>
-               
-            </div>
+          
             <div id="adicionar_procedimento" class="col"> 
                 <label class="labell">Pesquisar Procedimento</label>
                 <div class=" input-group col-md-8 col-sm-12"> 
@@ -134,19 +125,19 @@
                 </div>
                        
                 <div style="transform: translateY(20%)" class="icon col-md-3 col-sm-12"> 
-                    <p>{{ item.amostraPadrao.nomeAmostra }}</p>
+                    <p>{{ item.amostraPadrao }}</p>
                 </div> 
                 <div style="transform: translateY(20%)" class="icon col-md-3 col-sm-12"> 
-                    <p>{{ item.amostraPadrao.conservante }}</p>
+                    <p>{{ item.metodologia }}</p>
                 </div> 
                 <div class="icon col-md-2 col-sm-12"> 
-                    <button @click="remover()" class="btn btn-danger" ><img  src="../assets/lixeira.png" style="width:25px"></button>
+                    <button @click="remover(ListProcedimentoSave.indexOf(item))" class="btn btn-danger" ><img  src="../assets/lixeira.png" style="width:25px"></button>
                 </div> 
                 </div>
                 
             </div>
             <div id="botao_salvar">
-                <input id="salvar" @click="NovoAtendimento()" type="submit" class="btn btn-success" value="Salvar dados">
+                <input id="salvar" @click="NovoAtendimento();atendimentoProced()" type="submit" class="btn btn-success" value="Salvar dados">
             </div>
             
         </form>  
@@ -155,6 +146,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import request from '../router/Requests'
 export default{
     name: 'Atendimento',
@@ -177,7 +169,8 @@ export default{
             modal_check: false,
             description: '',
             ListProcedimentoSave: [],
-            dataAtual: ''
+            dataAtual: '',
+            id: ''
            
         
         }
@@ -186,11 +179,19 @@ export default{
 
     methods:{
 
+        Modal(){
+            this.exibir_modal = !this.exibir_modal
+        },
+
+        pushAtendimento(){
+            // A Construir
+        },
+
         cancelar(){
             this.medicosol = []
         },
-        remover(){
-            this.ListProcedimentoSave = []
+        remover(index){
+            this.ListProcedimentoSave.splice(index,1)
         },
 
         filtro(){
@@ -203,19 +204,7 @@ export default{
             this.inputProcedimento = sugestoes.nomeProcedimento 
             this.ListSugestoes = []
         },
-        exibir_modal_check(){
-            this.modal_check = !this.modal_check
-        },
-        removerItem(){
-
-        },
-        ExibirModal(){
-            this.exibir_modal = !this.exibir_modal;
-        },
-        FecharModal(){
-            this.exibir_modal = !this.exibir_modal;
-        },
-
+        
         obterDataAtual(){
             const data = new Date()
             const dataFormatada = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
@@ -234,8 +223,7 @@ export default{
                     console.log(response.data);
                     this.paciente = response.data
                     if(response.data == ''){
-                        this.exibir_modal_check()
-                        this.texto = 'Paciente não encontrado!'
+                        this.$toasted.error("Paciente não encontrado!")
                     }
                 } catch (error) {
                     console.error('Erro na requisição Axios', error);
@@ -247,18 +235,16 @@ export default{
            
             try {
                     const response = await request.get(`/med/medicoSolicitante/crm/${this.crm}`);
+                    this.medicosol = response.data;
                     console.log(response.data);
-                    this.medicosol = response.data
-                    this.name_medico = this.medicosol.nomeCompl
                 } catch (error) {
                     console.error('Erro na requisição Axios', error);
-                    this.exibir_modal_check()
-                    this.texto = 'Opps! Médico não cadastrado =('
-                    this.description = 'Para adicionar um novo médico cliquem em +'
+                    this.$toasted.error("Médico não cadastrado =(")
                 }
         },
         NovoMedicoAss(){
             //Construindo o Formdata que será enviado
+            try{
             const formdata = new FormData()
             formdata.append('crm', this.crmsol)
             formdata.append('ufCrm',this.ufCrm)
@@ -269,15 +255,15 @@ export default{
             .post(`/med/medicoSolicitante`,formdata)
             .then((dadoss)=>{
             //Armazendo os dados em uma lista
-                this.medicosol = dadoss.data
-                this.FecharModal()
-                this.exibir_modal_check()
-                this.texto = 'Cadastro Concluido!'
+                this.$toasted.success("Médico cadastrado com sucesso!")
+                
             })
-        },
-
-        async buscarProced(){
+            }catch(error){
+                this.$toasted.error("Opps! Algo deu errado!")
+            }
             
+        },
+        async buscarProced(){
             
             try {
                     const response = await request.get(`/procedimento`);
@@ -296,57 +282,54 @@ export default{
             console.log(this.inputProcedimento)
             for (let i = 0; i < this.ListProcedimento.length; i++) {
                 if (this.inputProcedimento == this.ListProcedimento[i].nomeProcedimento) {
-                    this.ListProcedimentoSave = this.ListProcedimento[i];
+                    this.ListProcedimentoSave.push(this.ListProcedimento[i]);
                     console.log("Correspondência encontrada");
                 break; // Importante: interromper o loop após encontrar uma correspondência
                 }else{
                     console.log("socorro!")
                 }
-}
+            }
 
             
             console.log(this.ListProcedimento[0].nomeProcedimento)
             console.log(this.ListProcedimentoSave.type)
             console.log(this.inputProcedimento.type)
         },
-        NovoAtendimento(){
-
+        async NovoAtendimento(){
+            console.log(this.ListProcedimentoSave)
             
-
-            try{
             
-                const medic ={
-                    crm: this.medicosol[0].crm,
-                    ufCrm: this.medicosol[0].ufCrm,
-                    nomeCompl: this.medicosol[0].nomeCompl,
-                    active: true
-                    
-                }
                 const formdata = new FormData()
                 formdata.append('date', this.dataAtual)
                 formdata.append('active',true)
-                formdata.append('procedimento',this.ListProcedimentoSave[0].id)
+                formdata.append('procedimento',this.ListProcedimentoSave)
                 formdata.append('medicoSolicitante',this.medicosol[0].id)
                 formdata.append('paciente',this.paciente[0].id)
-                console.log(this.paciente.type)
-                console.log(this.medicosol.type)
                 
             //Enviando
-                request.post('/atendimento',formdata)
-                .then(({dados})=>{
-                    this.exibir_modal_check()
-                    this.texto = "Atendimento Cadastrado!"
-                })
+                const response = await request.post('/atendimento',formdata)
+                console.log(response.data.id)
+                this.id = response.data.id
+                this.atendimentoProced();
+                this.$toasted.success("Atendimento Enviado!")
+
                 
-            }catch(error){
-                this.exibir_modal_check()
-                this.texto = "Opps! Algo deu errado =("
-                this.description = error
-                console.log(this.paciente)
-            }
             //Construindo o Formdata que será enviado
             
+           
+            
+            //ENVIO A LISTA DE ATENDIMENTOS E ASSOCIO AO ATENDIMENTO
+            
         },
+
+        atendimentoProced(){
+            request.post(`/atdpr/${this.id}`,this.ListProcedimentoSave)
+            .then(({dados})=>{
+                    console.log(dados)
+                })
+            
+            
+        }
         
     },
     mounted(){
@@ -354,8 +337,8 @@ export default{
         this.obterDataAtual();
     }
     
-}
 
+}
 </script>
 
 

@@ -10,7 +10,6 @@
                     <div class="lista_opc" v-show="listI"> 
                         <button class="btn btn-outline-secondary border-0" @click="exibirAtendimento()">Novo Atendimento</button>
                         <button class="btn btn-outline-secondary border-0" @click="exibirNovoPaciente()">Novo Paciente</button>
-                        <button class="btn btn-outline-secondary border-0" @click="exibirPesquisarPac()">Pesquisar Paciente</button>
                         <button class="btn btn-outline-secondary border-0" @click="exibirInserirLaudo()">Inserir Laudo</button>
                         <button class="btn btn-outline-secondary border-0" @click="exibir_relatorios()">Relatórios</button>
                     </div>
