@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 import VueTheMask from 'vue-the-mask'
 import Toasted  from 'vue-toasted'
+import Vuelidate from 'vuelidate'
+
+Vue.use(Vuelidate)
 Vue.use(VueTheMask)
 Vue.use(Toasted, {duration:3000})
 

@@ -5,24 +5,26 @@
       <div class="row">
         <div class="col-md-2 col-12">
           <label>CPF</label>
-          <input type="text" class="form-control" placeholder="999.999.999.99" required
-            v-mask="['###.###.###-##', '###.###.###-##']" v-model="cpf">
+          <input type="text" class="form-control" placeholder="999.999.999.99"
+            v-mask="['###.###.###-##', '###.###.###-##']" v-model="$v.cpf.$model" :class="{ error: $v.cpf.$error }">
         </div>
         <div class="col-md-10 col-12">
           <label>Nome Completo</label>
-          <input type="text" class="form-control" placeholder="Nome Completo" required v-model="fullName">
+          <input type="text" class="form-control" placeholder="Nome Completo" v-model="$v.fullName.$model"
+            :class="{ error: $v.fullName.$error }">
         </div>
         <div class="col-md-9 col-12">
           <label>Email</label>
-          <input type="text" class="form-control" placeholder="emial@gmail.com" v-model="email">
+          <input type="text" class="form-control" placeholder="emial@gmail.com" v-model="$v.email.$model"
+            :class="{ error: $v.email.$error }">
         </div>
         <div class="col-md-3">
           <label>Data de nascimento</label>
-          <input type="date" class="form-control" required v-model="birthDate">
+          <input type="date" class="form-control" v-model="$v.birthDate.$model" :class="{ error: $v.birthDate.$error }">
         </div>
         <div class="col-md-3">
           <label>Sexo</label>
-          <select class="form-select" v-model="sex">
+          <select class="form-select" v-model="$v.sex.$model" :class="{ error: $v.sex.$erro }">
             <!-- <option selected>Selecione o sexo</option> -->
             <option value="Masculino">Masculino</option>
             <option value="Feminino">Feminino</option>
@@ -31,33 +33,40 @@
         </div>
         <div class="col-md-9">
           <label>Telefone</label>
-          <input type="text" class="form-control" placeholder="(83) 99999-9999" required
-            v-mask="['(##) ####-####', '(##) #####-####']" v-model="telephone">
+          <input type="text" class="form-control" placeholder="(83) 99999-9999"
+            v-mask="['(##) ####-####', '(##) #####-####']" v-model="$v.telephone.$model"
+            :class="{ error: $v.telephone.$error }">
         </div>
         <h3>Endereço:</h3>
         <div class="col-md-2 col-12">
           <label>Cep</label>
-          <input type="text" class="form-control" placeholder="00000-000" required v-mask="['#####-###', '#####-###']" v-model="endereco.cep">
+          <input type="text" class="form-control" placeholder="00000-000" @input="searchCep"
+            v-mask="['#####-###', '#####-###']" v-model="$v.endereco.cep.$model" :class="{ error: $v.endereco.cep.$error }">
         </div>
         <div class="col-md-10 col-12">
           <label>Rua</label>
-          <input type="text" class="form-control" placeholder="Rua Clinica Biolab" required v-model="endereco.rua">
+          <input type="text" class="form-control" placeholder="Rua Clinica Biolab" v-model="$v.endereco.rua.$model"
+            :class="{ error: $v.endereco.rua.$error }">
         </div>
         <div class="col-md-4 col-12">
           <label>Bairro</label>
-          <input type="text" class="form-control" required v-model="endereco.bairro">
+          <input type="text" class="form-control" v-model="$v.endereco.bairro.$model"
+            :class="{ error: $v.endereco.bairro.$error }">
         </div>
         <div class="col-md-4 col-12">
           <label>Cidade</label>
-          <input type="text" class="form-control" required v-model="endereco.cidade">
+          <input type="text" class="form-control" v-model="$v.endereco.cidade.$model"
+            :class="{ error: $v.endereco.cidade.$error }">
         </div>
         <div class="col-md-3 col-12">
           <label>Estado</label>
-          <input type="text" class="form-control" required v-model="endereco.estado">
+          <input type="text" class="form-control" v-model="$v.endereco.estado.$model"
+            :class="{ error: $v.endereco.estado.$error }">
         </div>
         <div class="col-md-1 col-12">
           <label>Numero</label>
-          <input type="text" class="form-control" required v-model="endereco.numero">
+          <input type="text" class="form-control" v-model="$v.endereco.numero.$model"
+            :class="{ error: $v.endereco.numero.$error }">
         </div>
 
 
@@ -71,6 +80,7 @@
 
 <script>
 import { mask } from 'vue-the-mask'
+import { required } from 'vuelidate/lib/validators'
 import request from '../router/Requests'
 
 export default {
@@ -82,21 +92,45 @@ export default {
       birthDate: "",
       sex: "",
       telephone: "",
-      endereco:{
+      endereco: {
         rua: "",
-        bairro:"",
-        numero:"",
-        cidade:"",
-        estado:"",
-        cep:""
+        bairro: "",
+        numero: "",
+        cidade: "",
+        estado: "",
+        cep: ""
       }
-
     }
+  },
+  validations: {
+    fullName: { required },
+    cpf: { required },
+    email: { required },
+    birthDate: { required },
+    sex: { required },
+    telephone: { required },
+    endereco: {
+      rua: { required },
+      bairro: { required },
+      numero: { required },
+      cidade: { required },
+      estado: { required },
+      cep: { required }
+    },
   },
   directives: { mask },
   name: 'NovoPaciente',
   methods: {
     async salvarPaciente() {
+      if (this.$v.sex.$invalid) {
+        this.$toasted.error("Selecione o sexo");
+      }
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+
+
       const form = new FormData();
       form.append("cpf", this.cpf);
       form.append("fullName", this.fullName);
@@ -112,14 +146,25 @@ export default {
       form.append("endereco.estado", this.endereco.estado);
 
       await request.post("/patient", form).then(({ data }) => {
-        this.$toasted.success("Paciente Cadastrado com sucesso!", );
+        this.$toasted.success("Paciente Cadastrado com sucesso!",);
         this.$refs.form.reset();
       }).catch(({ data }) => {
         this.$toasted.error("Erro ao cadastrar");
       });
 
-
-    }
+    },
+    async searchCep() {
+      try {
+        const response = await request.get(`https://viacep.com.br/ws/${this.endereco.cep}/json/`);
+        this.cepData = response.data;
+        this.endereco.rua = this.cepData.logradouro
+        this.endereco.bairro = this.cepData.bairro
+        this.endereco.cidade = this.cepData.localidade
+        this.endereco.estado = this.cepData.uf
+      } catch (error) {
+        console.error('Erro ao buscar CEP:', error);
+      }
+    },
   }
 
 }
@@ -130,7 +175,8 @@ h2 {
   margin-bottom: 20px;
   font-family: Arial, Helvetica, sans-serif;
 }
-h3{
+
+h3 {
   margin-top: 20px;
 }
 
@@ -144,6 +190,10 @@ label {
   margin-top: 30px;
 }
 
+.error {
+  border: 1px solid red;
+}
+
 #formulario_paciente {
   margin-top: 100px;
   background-color: white;
@@ -151,5 +201,4 @@ label {
   padding: 10px;
   height: 65%;
   width: 98%;
-}
-</style>
+}</style>
