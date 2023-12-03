@@ -98,11 +98,10 @@ export default {
         .then((response) => {
           console.log(response);
           this.$refs.form.reset();
-          alert("Dados Salvos com Sucesso!");
-          console.log("Dados enviados com sucesso:", response.data);
+          this.$toasted.success("Dados salvos com Sucesso!")
         })
         .catch((error) => {
-          console.log("Erro ao enviar dados!", error);
+          this.$toasted.error("Falha ao salvar dados");
         });
     },
   },

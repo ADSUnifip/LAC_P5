@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import moment from 'moment';
+
 import request from '../router/Requests'
 export default{
     name: 'Atendimento',
@@ -326,6 +326,7 @@ export default{
             request.post(`/atdpr/${this.id}`,this.ListProcedimentoSave)
             .then(({dados})=>{
                     console.log(dados)
+                    this.$refs.form.reset();
                 })
             
             

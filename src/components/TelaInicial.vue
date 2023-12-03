@@ -11,7 +11,6 @@
                         <button class="btn btn-outline-secondary border-0" @click="exibirAtendimento()">Novo Atendimento</button>
                         <button class="btn btn-outline-secondary border-0" @click="exibirNovoPaciente()">Novo Paciente</button>
                         <button class="btn btn-outline-secondary border-0" @click="exibirInserirLaudo()">Inserir Laudo</button>
-                        <button class="btn btn-outline-secondary border-0" @click="exibir_relatorios()">Relatórios</button>
                     </div>
                 </div>
                 </div>
@@ -25,20 +24,17 @@
             
         </nav>
         <div class="col-md-10 col-sm-12"> 
+            <div class="telas_forms" v-show="dashboard"> 
+                <Dashboard/>
+            </div>
             <div class="telas_forms" v-show="atendimento"> 
                 <Atendimento/>
             </div>
             <div class="telas_forms" v-show="novo_paciente"> 
                 <NovoPaciente/>
             </div>
-            <div class="telas_forms" v-show="pesquisar_pac"> 
-                <PesquisarPaciente/>
-            </div>
             <div class="telas_forms" v-show="inserir_laudo"> 
                 <InserirLaudo/>
-            </div>
-            <div class="telas_forms" v-show="exibir_relatorio"> 
-                <Relatorios/>
             </div>
             <div class="telas_forms" v-show="cad_colab"> 
                 <CadastroColab/>
@@ -65,6 +61,7 @@ import InserirLaudo from '../forms/InserirLaudo.vue';
 import Relatorios from './Relatorios.vue';
 import CadastroColab from '../forms/CadastroColab.vue';
 import CadastroProce from '../forms/CadastroProce.vue';
+import Dashboard from './Dashboard.vue';
 
 export default{
     name:"TelaInicial",
@@ -75,7 +72,8 @@ export default{
         InserirLaudo,
         Relatorios,
         CadastroColab,
-        CadastroProce
+        CadastroProce,
+        Dashboard
     },
     data(){
         return{
@@ -87,7 +85,8 @@ export default{
             inserir_laudo: false,
             exibir_relatorio: false,
             cad_colab: false,
-            cad_proc: false
+            cad_proc: false,
+            dashboard: true,
 
         }
     },
@@ -105,8 +104,9 @@ export default{
            this.novo_paciente = false;
            this.pesquisar_pac = false;
            this.inserir_laudo = false;
-           this.cad_colab = false
+           this.cad_colab = false;
            this.cad_proc = false;
+           this.dashboard = !this.dashboard
 
         },
         exibirNovoPaciente(){
@@ -115,17 +115,9 @@ export default{
             this.pesquisar_pac = false;
             this.inserir_laudo = false;
             this.exibir_relatorio = false;
-            this.cad_colab = false
+            this.cad_colab = false;
             this.cad_proc = false;
-        },
-        exibirPesquisarPac(){
-            this.pesquisar_pac = !this.pesquisar_pac;
-            this.atendimento = false;
-            this.novo_paciente = false;
-            this.inserir_laudo = false;
-            this.exibir_relatorio = false;
-            this.cad_colab = false
-            this.cad_proc = false;
+            this.dashboard = !this.dashboard
         },
         exibirInserirLaudo(){
             this.inserir_laudo = !this.inserir_laudo;
@@ -136,32 +128,22 @@ export default{
             this.cad_colab = false
             this.cad_proc = false;
         },
-        exibir_relatorios(){
-            this.exibir_relatorio = !this.exibir_relatorio;
-            this.atendimento = false;
-            this.novo_paciente = false;
-            this.pesquisar_pac = false;
-            this.inserir_laudo = false;
-            this.cad_colab = false
-            this.cad_proc = false;
-        },
         exibirCadColab(){
             this.cad_colab = !this.cad_colab
             this.cad_proc = false;
             this.atendimento = false;
             this.novo_paciente = false;
-            this.pesquisar_pac = false;
             this.inserir_laudo = false;
-            this.exibir_relatorio =false;
+            this.dashboard = !this.dashboard
         },
         exibirCadProce(){
             this.cad_proc = !this.cad_proc;
             this.cad_colab = false;
             this.atendimento = false;
             this.novo_paciente = false;
-            this.pesquisar_pac = false;
             this.inserir_laudo = false;
-            this.exibir_relatorio =false;
+            this.dashboard = !this.dashboard
+          
         },
         sair(){
             this.$router.push('/')
