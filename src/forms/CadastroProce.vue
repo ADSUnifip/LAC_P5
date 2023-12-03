@@ -1,34 +1,22 @@
 <template>
-  <div class="principal">
-    <h1>Cadastro de Procedimento</h1>
+  <div class="principal d-flex justify-content-center">
     <div id="formulario_procedimento">
-      <h3>Dados do Procedimento</h3>
+      <h2>Cadastro de Procedimento</h2>
       <form class="formulario" @submit="salvarProced()" ref="form">
         <div class="row">
           <div class="col-md-4 col-12 col-sm-12">
             <label class="titulo">Mnemônico *</label>
-            <input
-              v-model="mnemonico"
-              type="text"
-              class="form-control"
-              placeholder="Ex: A.B.C"
-              required
-            />
+            <input v-model="$v.mnemonico.$model" type="text" class="form-control" placeholder="Ex: A.B.C"   :class="{ error: $v.mnemonico.$error }"/>
           </div>
           <div class="col-md-8 col-12">
             <label class="titulo">Nome Procedimento *</label>
-            <input
-              v-model="nomeProcedimento"
-              type="text"
-              class="form-control"
-              placeholder="Nome Completo (sem abreviações)"
-              required
-            />
+            <input v-model="$v.nomeProcedimento.$model" type="text" class="form-control"
+              placeholder="Nome Completo (sem abreviações)" :class="{ error: $v.nomeProcedimento.$error }"/>
           </div>
 
           <div class="col-md-12 col-sm-12">
             <label class="titulo">Tipo de Amostra *</label>
-            <select v-model="amostraPadrao" class="form-select" required>
+            <select v-model="$v.amostraPadrao.$model" class="form-select"  >
               <option selected>-- Selecione --</option>
               <option value="Sangue">Sangue</option>
               <option value="Urina">Urina</option>
@@ -40,15 +28,11 @@
 
           <div class="col-md-12 col-sm-12">
             <label class="titulo">Metodologia</label>
-            <textarea
-              v-model="metodologia"
-              class="form-control"
-              rows="4"
-              placeholder="Descreva a Metodologia ou use como campo de Observação"
-            ></textarea>
+            <textarea v-model="$v.metodologia.$model" class="form-control" rows="4"
+              placeholder="Descreva a Metodologia ou use como campo de Observação" :class="{ error: $v.metodologia.$error }"></textarea>
           </div>
 
-          <div class="btn" id="salvar">
+          <div class="btn d-flex justify-content-end" id="salvar">
             <input type="submit" class="btn btn-success large" />
           </div>
         </div>
@@ -56,9 +40,10 @@
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
 import axios from "axios";
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: "CadastroProce",
@@ -69,6 +54,12 @@ export default {
       amostraPadrao: "",
       metodologia: "",
     };
+  },
+  validations: {
+    mnemonico: {required},
+    nomeProcedimento: {required},
+    amostraPadrao: {required},
+    metodologia: {required},
   },
   methods: {
     created() {
@@ -87,6 +78,13 @@ export default {
       );
     },
     salvarProced() {
+      if (this.$v.amostraPadrao.$invalid) {
+        this.$toasted.error("Selecione o Tipo da Amostra");
+      }
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
       const procedimentoData = new FormData();
       procedimentoData.append("menemonico", this.mnemonico);
       procedimentoData.append("nomeProcedimento", this.nomeProcedimento);
@@ -96,7 +94,7 @@ export default {
       axios
         .post("http://localhost:8080/api/procedimento", procedimentoData)
         .then((response) => {
-          console.log(response);
+          this.$toasted.success("Procedimento Cadastrado com sucesso!");
           this.$refs.form.reset();
           this.$toasted.success("Dados salvos com Sucesso!")
         })
@@ -107,21 +105,24 @@ export default {
   },
 };
 </script>
-  
+
 <style scoped>
 #formulario_procedimento {
-  background-color: #d9d9d9;
-  border-radius: 5px;
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 18px;
   padding: 10px;
-  height: 80%;
+  height: 65%;
+  width: 98%;
 }
 
-h3 {
-  margin: 1rem;
+label {
+  margin-top: 10px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
 }
-
-.titulo {
-  padding: 0.5rem;
+.error {
+  border: 1px solid red;
 }
 
 #salvar {
