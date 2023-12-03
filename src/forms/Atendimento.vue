@@ -159,7 +159,7 @@
 
 <script>
 
-import moment from 'moment';
+
 import { required } from 'vuelidate/lib/validators'
 import request from '../router/Requests'
 export default {
@@ -240,10 +240,8 @@ export default {
         console.log(this.cpf)
         console.log(response.data);
         this.paciente = response.data
-        if (response.data == '') {
-          this.$toasted.error("Paciente não encontrado!")
-        }
       } catch (error) {
+        this.$toasted.error("Paciente não encontrado!")
         console.error('Erro na requisição Axios', error);
       }
 

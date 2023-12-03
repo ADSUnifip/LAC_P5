@@ -44,9 +44,9 @@
             </div>
             </div>
         </div>
-        <!-- <div class="col-sm-12">
+        <div class="col-sm-12">
             <button @click="sair()" id="sair" class="btn btn-danger">Sair</button>
-        </div> -->
+        </div> 
 
         </div>
 
@@ -56,9 +56,7 @@
 <script>
 import Atendimento from '../forms/Atendimento.vue'
 import NovoPaciente from '../forms/NovoPaciente.vue';
-import PesquisarPaciente from './PesquisarPaciente.vue';
-import InserirLaudo from '../forms/InserirLaudo.vue';
-import Relatorios from './Relatorios.vue';
+import InserirLaudo from '../forms/InserirLaudo.vue'
 import CadastroColab from '../forms/CadastroColab.vue';
 import CadastroProce from '../forms/CadastroProce.vue';
 import Dashboard from './Dashboard.vue';
@@ -68,9 +66,7 @@ export default{
     components:{
         Atendimento,
         NovoPaciente,
-        PesquisarPaciente,
         InserirLaudo,
-        Relatorios,
         CadastroColab,
         CadastroProce,
         Dashboard

@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@vuelidate/core": "^2.0.3",
     "axios": "^1.4.0",
     "moment": "^2.29.4",
     "v-mask": "^2.3.0",
