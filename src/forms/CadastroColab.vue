@@ -4,7 +4,6 @@
     <div id="formulario_paciente" class="p-5 container">
         <form class="formulario" @submit.prevent="salvarColab()">
           <div style=" display: flex; justify-content: center;">
-            <span v-if="msg"  class="erro pb-2 text-success text-center fs-1 text-break">{{ this.msg }}</span>
           </div>
             <div class="row"> 
                 <div class="col-md-4 col-12">
@@ -97,6 +96,7 @@
 
 <script>
 import axios from "axios";
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: "CadastroColab",
@@ -112,7 +112,8 @@ export default {
         bairro:"",
         numero:"",
         cidade:"",
-        estado:""
+        estado:"",
+        
       },
       email: "",
       senha: "",
@@ -151,6 +152,7 @@ export default {
       formdata.append("endereco.numero", this.endereco.numero);
       formdata.append("endereco.cidade", this.endereco.cidade);
       formdata.append("endereco.estado", this.endereco.estado);
+      formdata.append("endereco.cep", this.cepData.cep);
       formdata.append("email", this.email);
       formdata.append("senha", this.senha);
       formdata.append("tipoUsuario", this.tipoUsuario = "PADRAO");
@@ -162,11 +164,12 @@ export default {
           }
         })
         .then(({ data }) => {
-         
+          this.$toasted.success("Colaborador cadastrado com sucesso!",);
           this.msg = "Colaborador Cadastrado com Sucesso!";
           this.limparFormulario()
         })
         .catch((error) => {
+         this.$toasted.error("Erro ao cadastrar colaborador");
          const mensagensErro = error.response.data;
          console.log(error.response.data)
          mensagensErro.forEach((erro) => {
@@ -255,6 +258,7 @@ export default {
       this.endereco.bairro = "";
       this.endereco.cidade = "";
       this.endereco.estado = "";
+      this.endereco.numero = "";
       
 
     },
