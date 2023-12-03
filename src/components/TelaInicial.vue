@@ -4,55 +4,54 @@
     <div id="geral" class="row">
         <nav id="sidebar" class="col-md-2 col-sm-12">
             <img id="img_nav" src="../assets/logo_biolab.png">
-            <div id="botoes_laterais">   
-                <div class="item_lateral">  
+            <div id="botoes_laterais">
+                <div class="item_lateral">
                     <button class="btn btn-outline-success btn-lg" @click="exibirlist()">Atendimento</button>
-                    <div class="lista_opc" v-show="listI"> 
+                    <div class="lista_opc" v-show="listI">
                         <button class="btn btn-outline-secondary border-0" @click="exibirAtendimento()">Novo Atendimento</button>
                         <button class="btn btn-outline-secondary border-0" @click="exibirNovoPaciente()">Novo Paciente</button>
-                        <button class="btn btn-outline-secondary border-0" @click="exibirPesquisarPac()">Pesquisar Paciente</button>
                         <button class="btn btn-outline-secondary border-0" @click="exibirInserirLaudo()">Inserir Laudo</button>
                         <button class="btn btn-outline-secondary border-0" @click="exibir_relatorios()">Relatórios</button>
                     </div>
                 </div>
                 </div>
-                <div class="item_lateral"> 
+                <div class="item_lateral">
                     <button class="btn btn-outline-success btn-lg" @click="exibirlist2()">Configuração</button>
-                    <div class="lista_opc" v-show="listII"> 
+                    <div class="lista_opc" v-show="listII">
                         <button class="btn btn-outline-secondary border-0" @click="exibirCadColab()">Cadastro Colaborador</button>
                         <button class="btn btn-outline-secondary border-0" @click="exibirCadProce()">Cadastro Procedimento</button>
                     </div>
                 </div>
-            
+
         </nav>
-        <div class="col-md-10 col-sm-12"> 
-            <div class="telas_forms" v-show="atendimento"> 
+        <div class="col-md-10 col-sm-12">
+            <div class="telas_forms" v-show="atendimento">
                 <Atendimento/>
             </div>
-            <div class="telas_forms" v-show="novo_paciente"> 
+            <div class="telas_forms" v-show="novo_paciente">
                 <NovoPaciente/>
             </div>
-            <div class="telas_forms" v-show="pesquisar_pac"> 
+            <div class="telas_forms" v-show="pesquisar_pac">
                 <PesquisarPaciente/>
             </div>
-            <div class="telas_forms" v-show="inserir_laudo"> 
+            <div class="telas_forms" v-show="inserir_laudo">
                 <InserirLaudo/>
             </div>
-            <div class="telas_forms" v-show="exibir_relatorio"> 
+            <div class="telas_forms" v-show="exibir_relatorio">
                 <Relatorios/>
             </div>
-            <div class="telas_forms" v-show="cad_colab"> 
+            <div class="telas_forms" v-show="cad_colab">
                 <CadastroColab/>
             </div>
-            <div class="telas_forms" v-show="cad_proc"> 
+            <div class="telas_forms" v-show="cad_proc">
                 <CadastroProce/>
-            </div> 
+            </div>
             </div>
         </div>
-        <div class="col-sm-12"> 
+        <!-- <div class="col-sm-12">
             <button @click="sair()" id="sair" class="btn btn-danger">Sair</button>
-        </div>
-       
+        </div> -->
+
         </div>
 
 </body>
@@ -167,8 +166,8 @@ export default{
         sair(){
             this.$router.push('/')
         }
-        
-        
+
+
     }
 }
 </script>
@@ -177,7 +176,7 @@ export default{
 
 .item_lateral .btn btn-outline-success{
     width: 100%;
-   
+
 }
 .btn btn-outline-secondary{
     border: none;
@@ -198,7 +197,7 @@ export default{
 }
 .item_lateral{
     background-color: #fff;
-    display: grid; 
+    display: grid;
     width: 100%;
     orientation: colunm;
     border-radius: 10px;
@@ -230,7 +229,7 @@ export default{
 }
 .telas_forms{
     background-color: #B4C2B4;
-    
+
 }
 .col-md-10{
     background-color: #B4C2B4;

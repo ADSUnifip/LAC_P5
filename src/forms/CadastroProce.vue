@@ -30,11 +30,11 @@
             <label class="titulo">Tipo de Amostra *</label>
             <select v-model="amostraPadrao" class="form-select" required>
               <option selected>-- Selecione --</option>
-              <option value="Tipo_01">Sangue</option>
-              <option value="Tipo_02">Urina</option>
-              <option value="Tipo_03">Fezes</option>
-              <option value="Tipo_04">Saliva</option>
-              <option value="Tipo_05">Outro ...</option>
+              <option value="Sangue">Sangue</option>
+              <option value="Urina">Urina</option>
+              <option value="Fezes">Fezes</option>
+              <option value="Saliva">Saliva</option>
+              <option value="Outros">Outro ...</option>
             </select>
           </div>
 
