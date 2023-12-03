@@ -1,5 +1,5 @@
 <template>
-  <div id="formulario_paciente" class="d-flex">
+  <div id="formulario_paciente" class="d-flex justify-content-center">
     <form class="formulario" @submit="salvarPaciente()" ref="form">
       <h2>Novo Paciente</h2>
       <div class="row">
@@ -195,10 +195,10 @@ label {
 }
 
 #formulario_paciente {
-  margin-top: 100px;
+  margin-top: 20px;
   background-color: white;
   border-radius: 18px;
   padding: 10px;
   height: 65%;
-  width: 98%;
+  width: 100%;
 }</style>
