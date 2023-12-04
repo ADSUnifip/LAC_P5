@@ -83,66 +83,77 @@ export default {
       cad_proc: false,
       dashboard: true,
 
-    }
-  },
-  methods: {
-    exibirlist() {
-      this.listI = !this.listI;
-      this.listII = false;
+        }
     },
-    exibirlist2() {
-      this.listII = !this.listII;
-      this.listI = false;
-    },
-    exibirAtendimento() {
-      this.atendimento = !this.atendimento;
-      this.novo_paciente = false;
-      this.pesquisar_pac = false;
-      this.inserir_laudo = false;
-      this.cad_colab = false;
-      this.cad_proc = false;
-      this.dashboard = !this.dashboard
-
-    },
-    exibirNovoPaciente() {
-      this.novo_paciente = !this.novo_paciente;
-      this.atendimento = false;
-      this.pesquisar_pac = false;
-      this.inserir_laudo = false;
-      this.exibir_relatorio = false;
-      this.cad_colab = false;
-      this.cad_proc = false;
-      this.dashboard = !this.dashboard
-    },
-    exibirInserirLaudo() {
-      this.inserir_laudo = !this.inserir_laudo;
-      this.atendimento = false;
-      this.novo_paciente = false;
-      this.pesquisar_pac = false;
-      this.exibir_relatorio = false;
-      this.cad_colab = false
-      this.cad_proc = false;
-    },
-    exibirCadColab() {
-      this.cad_colab = !this.cad_colab
-      this.cad_proc = false;
-      this.atendimento = false;
-      this.novo_paciente = false;
-      this.inserir_laudo = false;
-      this.dashboard = !this.dashboard
-    },
-    exibirCadProce() {
-      this.cad_proc = !this.cad_proc;
-      this.cad_colab = false;
-      this.atendimento = false;
-      this.novo_paciente = false;
-      this.inserir_laudo = false;
-      this.dashboard = !this.dashboard
-
-    },
-    sair() {
-      this.$router.push('/')
-    }
+    methods:{
+        exibirlist(){
+            this.listI = !this.listI;
+            this.listII = false;
+        },
+        exibirlist2(){
+            this.listII = !this.listII;
+            this.listI = false;
+        },
+        exibirAtendimento(){
+           this.atendimento = !this.atendimento;
+           this.novo_paciente = false;
+           this.inserir_laudo = false;
+           this.cad_colab = false;
+           this.cad_proc = false;
+           this.dashboard = false;
+           if(this.atendimento == false){
+            this.dashboard = true;
+           }
+        },
+        exibirNovoPaciente(){
+            this.novo_paciente = !this.novo_paciente;
+            this.atendimento = false;
+            this.inserir_laudo = false;
+            this.cad_colab = false;
+            this.cad_proc = false;
+            this.dashboard = false;
+            if(this.novo_paciente == false){
+            this.dashboard = true;
+           }
+            
+        },
+        exibirInserirLaudo(){
+            this.inserir_laudo = !this.inserir_laudo;
+            this.atendimento = false;
+            this.novo_paciente = false;
+            this.cad_colab = false
+            this.cad_proc = false;
+            this.dashboard = false;
+            if(this.inserir_laudo == false){
+            this.dashboard = true;
+           }
+        },
+        exibirCadColab(){
+            this.cad_colab = !this.cad_colab
+            this.cad_proc = false;
+            this.atendimento = false;
+            this.novo_paciente = false;
+            this.inserir_laudo = false;
+            this.dashboard = false;
+            if(this.cad_colab == false){
+            this.dashboard = true;
+           }
+        },
+        exibirCadProce(){
+            this.cad_proc = !this.cad_proc;
+            this.cad_colab = false;
+            this.atendimento = false;
+            this.novo_paciente = false;
+            this.inserir_laudo = false;
+            this.dashboard = false;
+            if(this.cad_proc == false){
+            this.dashboard = true;
+           }
+          
+        },
+        sair(){
+            this.$router.push('/')
+        }
 
 
   }

@@ -1,50 +1,108 @@
-<template>
-    <div id="burger_table" v-if="resultBurger">
-    <div>
-      <div id="burger_table_heading">
-        <div class="order-id"></div>
-        <div>Cliente:</div>
-        <div>Pão:</div>
-        <div>Carne:</div>
-        <div>Opcionais:</div>
-        <div>Ações:</div>
-      </div>
-    </div>
-    <div id="burger_table_rows">
-      <div class="burger_table_row" v-for="burger in resultBurger" :key="burger.id">
-        <div class="order-number"></div>
-        <div>{{ burger.name_client }}</div>
-        <div>{{ burger.bread }}</div>
-        <div>{{ burger.meat }}</div>
-        <div>
-          <ul>
-            <li>{{ burger.opcionais }}</li>
-          </ul>
+<<template>
+  <div>
+    <h2>Lista de Atendimentos</h2>
+    <div id="burger_table" v-if="atendimentos">
+      <div id="resultado" v-for="item in atendimentos" :key="item.id" class="col">
+        <div class="row itens" >
+          <div  class=" icon col-md-3 col-sm-12">
+              <p>Nome do Paciente</p>
+            </div>
+            <div class="icon col-md-3 col-sm-12">
+              <p>Data do Atendimento</p>
+            </div>
+            <div class="icon col-md-3 col-sm-12">
+              <p>Email</p>
+            </div>
+            <div class="icon col-md-3 col-sm-12">
+              <p>Telefone</p>
+            </div>
         </div>
-        <div>
-          <select name="status" class="status">
-            <option v-for="s in status" value="" :key="s.id" :selected="burger.status == s.name">
-              {{ s.name }}</option>
-          </select>
-          <button class="delete-btn" @click="deleteburger(burger.id)">Cancelar</button>
+          <div id="procedimento" class="row itens">
+            <div  class=" icon col-md-3 col-sm-12">
+              <p>{{ item.paciente.fullName }}</p>
+            </div>
+            <div class="icon col-md-3 col-sm-12">
+              <p>{{ item.date }}</p>
+            </div>
+            <div class="icon col-md-3 col-sm-12">
+              <p>{{ item.paciente.email}}</p>
+            </div>
+            <div class="icon col-md-3 col-sm-12">
+              <p>{{ item.paciente.telephone}}</p>
+            </div>
+          </div>
+          </div>
         </div>
-      </div>
+          <div id="Info" v-else>
+          <h2 >Ainda não há atendimentos cadastrados</h2>
+        </div>
     </div>
-  </div>
-<div id="Info" v-else>
-    <h2 >Ainda não há atendimentos cadastrados</h2>
-</div>
+
+
 </template>
 
 <script>
 
-
+import request from '../router/Requests'
 export default{
     name: "Dashboard",
+    data(){
+      return{
+        atendimentos: [], 
+        procedimentos: [],
+        ListProcedimento: [],
+        procedi: []
+      }
+    },
     components:{
 
+    },
+    methods:{
+      async buscar(){
+        try {
+        const response = await request.get(`/atendimento`)
+        this.atendimentos = response.data
+        console.log(response.data)
+      } catch (error) {
+        this.$toasted.error("Paciente não encontrado!")
+        console.error('Erro na requisição Axios', error);
+      }
+    },
+    async buscarPr(){
+        try {
+        const response = await request.get(`/atdpr/list`)
+        this.procedimentos = response.data
+        
+        console.log(response.data)
+      } catch (error) {
+        this.$toasted.error("Erro")
+        console.error('Erro na requisição Axios', error);
+      }
+    },
+    async buscarProced() {
+
+try {
+  const response = await request.get(`/procedimento`);
+  console.log(response.data)
+  this.ListProcedimento = response.data
+  for (var i = 0; response.length; i++) {
+    //Captar todas as Strings para adicionar na lista
+  }
+} catch (error) {
+  console.error('Erro na requisição Axios', error);
+}
+},
+
+     
+      
+    },
+    mounted(){
+     this.buscar()
+     this.buscarProced()
+     this.buscarPr()
     }
 }
+
 
 </script>
 
@@ -56,5 +114,14 @@ export default{
       justify-content: center;
       height: 100vh;
       margin: 0;
+}
+
+#resultado {
+  border-radius: 8px;
+  background-color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+
 }
 </style>

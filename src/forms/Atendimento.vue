@@ -6,8 +6,8 @@
         <div id="pesquisar" class="row">
           <label class="labell">Cpf do paciente</label>
           <div class=" input-group col-md-8 col-sm-12">
-            <input type="text" class="form-control" v-model="$v.cpf.model" maxlength="14" minlength="11"
-              placeholder="Insira o CPF do paciente" :class="{ error: $v.cpf.$error }">
+            <input type="text" class="form-control" v-model="cpf" maxlength="14" minlength="11"
+            v-mask="'###.###.###-##'" placeholder="Insira o CPF do paciente" :class="{ error: $v.cpf.$error }">
             <span class="input-group-addon">
               <button @click="buscarPaciente()" class=" botoes btn" style="margin-right: 60px;"><img
                   src="../assets/pesquisa.png" title="Pesquisar" style="width:25px"></button>
@@ -42,7 +42,7 @@
         <div class="row">
           <label class="labell">CRM do médico solicitante</label>
           <div class=" input-group col-md-8 col-sm-12">
-            <input type="text" class="form-control" v-model="$v.crm.model" maxlength="8" minlength="8"
+            <input type="text" class="form-control" v-model="crm" maxlength="8" minlength="8"
               placeholder="Ex: PB123456" :class="{ error: $v.crm.$error }">
             <span class="input-group-addon">
               <button id="slect_medico" @click="buscarMedicoCrm()" class=" botoes btn" style="margin-right: 60px;"><img
@@ -92,7 +92,7 @@
               </div>
               <div id="n_conselho" class="row">
                 <div class="col-md-10">
-                  <input type="text" class="form-control" v-model="crmsol" placeholder="Numero do Conselho" maxlength="8">
+                  <input type="text" class="form-control" v-model="crmsol" placeholder="Numero do Conselho" minlength="8">
                 </div>
                 <div id="sair_modal" class="col-md-2">
                   <button @click="NovoMedicoAss()" id="bt_salvar_cx" class="btn btn-success">Salvar</button>
@@ -105,7 +105,7 @@
         <div id="adicionar_procedimento" class="col">
           <label class="labell">Pesquisar Procedimento</label>
           <div class=" input-group col-md-8 col-sm-12">
-            <input type="text" id="ps_medico" class="form-control col-sd-6" v-model="$v.inputProcedimento.model"
+            <input type="text" id="ps_medico" class="form-control col-sd-6" v-model="inputProcedimento"
               @input="filtro" placeholder="Pesquisar Procedimento" :class="{ error: $v.inputProcedimento.$error }">
             <span class="input-group-addon">
               <button class=" botoes btn" style="margin-right: 60px;"><img src="../assets/pesquisa.png"
@@ -148,7 +148,7 @@
 
         </div>
         <div id="botao_salvar" class="d-flex justify-content-end mt-5">
-          <input id="salvar" @click="NovoAtendimento(); atendimentoProced()" type="submit" class="btn btn-success"
+          <input id="salvar" @click="NovoAtendimento()" type="submit" class="btn btn-success"
             value="Salvar dados">
         </div>
 
@@ -331,6 +331,7 @@ export default {
         this.id = response.data.id
         this.atendimentoProced();
         this.$toasted.success("Atendimento Cadastrado com sucesso!")
+        
       }).catch(()=>{ this.$toasted.$error("Erro ao cadastrar")})
 
 
@@ -354,6 +355,13 @@ export default {
             
         }
         
+    },
+    limpar(){
+      this.cpf =''
+      this.crm = ''
+      this.ListProcedimentoSave = '',
+      this.medicosol = '',
+      this.paciente = ''
     },
     mounted(){
         this.buscarProced();

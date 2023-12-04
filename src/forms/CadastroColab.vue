@@ -63,7 +63,7 @@
           <div class="col-md-10">
             <span></span>
             <label>Rua</label>
-            <input type="text" class="form-control" v-model="$v.endereco.rua.$model" readonly
+            <input type="text" class="form-control" v-model="$v.endereco.rua.$model" 
               :class="{ error: $v.endereco.rua.$error }">
             <span v-if="erro.endereco.rua" class="erro text-danger text-nowrap">{{ erro.endereco.rua }}</span>
           </div>
