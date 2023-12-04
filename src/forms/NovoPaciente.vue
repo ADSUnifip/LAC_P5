@@ -24,8 +24,8 @@
         </div>
         <div class="col-md-3">
           <label>Sexo</label>
-          <select class="form-select" v-model="$v.sex.$model" :class="{ error: $v.sex.$erro }">
-            <!-- <option selected>Selecione o sexo</option> -->
+          <select class="form-select" v-model="$v.sex.$model" :class="{ error: $v.sex.$error }">
+            <option selected>Selecione o sexo</option>
             <option value="Masculino">Masculino</option>
             <option value="Feminino">Feminino</option>
             <option value="Outros">Outros</option>
@@ -41,7 +41,8 @@
         <div class="col-md-2 col-12">
           <label>Cep</label>
           <input type="text" class="form-control" placeholder="00000-000" @input="searchCep"
-            v-mask="['#####-###', '#####-###']" v-model="$v.endereco.cep.$model" :class="{ error: $v.endereco.cep.$error }">
+            v-mask="['#####-###', '#####-###']" v-model="$v.endereco.cep.$model"
+            :class="{ error: $v.endereco.cep.$error }">
         </div>
         <div class="col-md-10 col-12">
           <label>Rua</label>
@@ -122,9 +123,6 @@ export default {
   name: 'NovoPaciente',
   methods: {
     async salvarPaciente() {
-      if (this.$v.sex.$invalid) {
-        this.$toasted.error("Selecione o sexo");
-      }
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
@@ -192,6 +190,10 @@ label {
 
 .error {
   border: 1px solid red;
+}
+
+.errorSelect {
+  color: red;
 }
 
 #formulario_paciente {
