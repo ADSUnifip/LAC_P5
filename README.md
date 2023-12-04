@@ -1,6 +1,6 @@
 # Biolab
 
-> projeto do hora de codar
+> Projeto 
 
 ## Build Setup
 
