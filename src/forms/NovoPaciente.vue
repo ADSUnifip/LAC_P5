@@ -192,10 +192,6 @@ label {
   border: 1px solid red;
 }
 
-.errorSelect {
-  color: red;
-}
-
 #formulario_paciente {
   margin-top: 20px;
   background-color: white;
