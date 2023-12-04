@@ -6,17 +6,18 @@
         <div class="row">
           <div class="col-md-4 col-12 col-sm-12">
             <label class="titulo">Mnemônico *</label>
-            <input v-model="$v.mnemonico.$model" type="text" class="form-control" placeholder="Ex: A.B.C"   :class="{ error: $v.mnemonico.$error }"/>
+            <input v-model="$v.mnemonico.$model" type="text" class="form-control" placeholder="Ex: A.B.C"
+              :class="{ error: $v.mnemonico.$error }" />
           </div>
           <div class="col-md-8 col-12">
             <label class="titulo">Nome Procedimento *</label>
             <input v-model="$v.nomeProcedimento.$model" type="text" class="form-control"
-              placeholder="Nome Completo (sem abreviações)" :class="{ error: $v.nomeProcedimento.$error }"/>
+              placeholder="Nome Completo (sem abreviações)" :class="{ error: $v.nomeProcedimento.$error }" />
           </div>
 
           <div class="col-md-12 col-sm-12">
             <label class="titulo">Tipo de Amostra *</label>
-            <select v-model="$v.amostraPadrao.$model" class="form-select"  >
+            <select v-model="$v.amostraPadrao.$model" class="form-select" :class="{ error: $v.amostraPadrao.$error }">
               <option selected>-- Selecione --</option>
               <option value="Sangue">Sangue</option>
               <option value="Urina">Urina</option>
@@ -29,7 +30,8 @@
           <div class="col-md-12 col-sm-12">
             <label class="titulo">Metodologia</label>
             <textarea v-model="$v.metodologia.$model" class="form-control" rows="4"
-              placeholder="Descreva a Metodologia ou use como campo de Observação" :class="{ error: $v.metodologia.$error }"></textarea>
+              placeholder="Descreva a Metodologia ou use como campo de Observação"
+              :class="{ error: $v.metodologia.$error }"></textarea>
           </div>
 
           <div class="btn d-flex justify-content-end" id="salvar">
@@ -56,10 +58,10 @@ export default {
     };
   },
   validations: {
-    mnemonico: {required},
-    nomeProcedimento: {required},
-    amostraPadrao: {required},
-    metodologia: {required},
+    mnemonico: { required },
+    nomeProcedimento: { required },
+    amostraPadrao: { required },
+    metodologia: { required },
   },
   methods: {
     created() {
@@ -78,9 +80,7 @@ export default {
       );
     },
     salvarProced() {
-      if (this.$v.amostraPadrao.$invalid) {
-        this.$toasted.error("Selecione o Tipo da Amostra");
-      }
+
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
@@ -121,11 +121,11 @@ label {
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 .error {
   border: 1px solid red;
 }
 
 #salvar {
   padding-top: 25px;
-}
-</style>
+}</style>
