@@ -96,7 +96,6 @@ export default {
         .then((response) => {
           this.$toasted.success("Procedimento Cadastrado com sucesso!");
           this.$refs.form.reset();
-          this.$toasted.success("Dados salvos com Sucesso!")
         })
         .catch((error) => {
           this.$toasted.error("Falha ao salvar dados");

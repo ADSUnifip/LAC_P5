@@ -9,12 +9,9 @@
             <input type="text" class="form-control" v-model="cpf" maxlength="14" minlength="11"
             v-mask="'###.###.###-##'" placeholder="Insira o CPF do paciente" :class="{ error: $v.cpf.$error }">
             <span class="input-group-addon">
-              <button @click="buscarPaciente()" class=" botoes btn" style="margin-right: 60px;"><img
+              <button @click="buscarPaciente()" class=" botoes btn d-flex justify-content-end"><img
                   src="../assets/pesquisa.png" title="Pesquisar" style="width:25px"></button>
             </span>
-            <button type="button" class="btn" @click="pushAtendimento()"><img src="../assets/adicionar.png"
-                title="Adicionar Médico no Sistema" style="width:25px">
-            </button>
           </div>
         </div>
         <div id="resultado" v-for="patient in paciente" :key="patient.id" class="col">
@@ -272,7 +269,7 @@ export default {
           .then((dadoss) => {
             //Armazendo os dados em uma lista
             this.$toasted.success("Médico cadastrado com sucesso!")
-
+            this.$refs.form.reset();
           })
       } catch (error) {
         this.$toasted.error("Opps! Algo deu errado!")
@@ -331,7 +328,7 @@ export default {
         this.id = response.data.id
         this.atendimentoProced();
         this.$toasted.success("Atendimento Cadastrado com sucesso!")
-        
+
       }).catch(()=>{ this.$toasted.$error("Erro ao cadastrar")})
 
 
@@ -351,10 +348,10 @@ export default {
                     console.log(dados)
                     this.$refs.form.reset();
                 })
-            
-            
+
+
         }
-        
+
     },
     limpar(){
       this.cpf =''
@@ -367,7 +364,7 @@ export default {
         this.buscarProced();
         this.obterDataAtual();
     }
-    
+
 
 }
 </script>
